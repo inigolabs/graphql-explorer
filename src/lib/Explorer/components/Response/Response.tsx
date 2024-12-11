@@ -30,6 +30,7 @@ export interface ResponseProps {
   preflightOutput: string[];
   preflightFailed: boolean;
   isSubscriptionActive: boolean;
+  theme?: "light" | "dark";
 }
 
 export default function ExplorerResponse(props: ResponseProps) {

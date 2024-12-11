@@ -60,6 +60,7 @@ export interface RequestProps {
   }) => void;
   isSubscriptionActive: boolean;
   terminateSubscription: (() => void) | null;
+  theme?: "light" | "dark";
 }
 
 function getJsonSchemaVariableDefinition(

@@ -2430,6 +2430,7 @@ export default function Explorer(props: ExplorerProps) {
             >
               <ExplorerRequest
                 ref={requestRef}
+                theme={props.theme}
                 schema={schema}
                 tab={activeTab}
                 url={url}
@@ -2453,6 +2454,7 @@ export default function Explorer(props: ExplorerProps) {
               />
               <div className={styles.handle} onMouseDown={onMouseDown} />
               <ExplorerResponse
+                theme={props.theme}
                 tab={activeTab}
                 url={url}
                 envVariables={envVariables}

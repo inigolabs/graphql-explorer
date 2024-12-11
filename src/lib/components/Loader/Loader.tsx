@@ -1,16 +1,16 @@
-import './Loader.scss';
-import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
-import Lottie, { LottieRef } from 'lottie-react';
-import light from './light.json';
-import dark from './dark.json';
+import "./Loader.scss";
+import classNames from "classnames";
+import { useEffect, useRef, useState } from "react";
+import Lottie, { LottieRef } from "lottie-react";
+import light from "./light.json";
+import dark from "./dark.json";
 
-interface ILoaderProps {
+export interface ILoaderProps {
   visible: boolean;
   style?: React.CSSProperties;
   label?: string;
   className?: string;
-  theme?: 'light' | 'dark';
+  theme?: "light" | "dark";
 }
 
 function Loader(props: ILoaderProps) {
@@ -36,8 +36,11 @@ function Loader(props: ILoaderProps) {
   }, [props.visible, lottieRef]);
 
   return (
-    <div className={classNames('Loader', { Visible: visible }, props.className)} style={props.style}>
-      {props.theme === 'light' ? (
+    <div
+      className={classNames("Loader", { Visible: visible }, props.className)}
+      style={props.style}
+    >
+      {props.theme === "light" ? (
         <Lottie animationData={light} loop={true} lottieRef={lottieRef} />
       ) : (
         <Lottie animationData={dark} loop={true} lottieRef={lottieRef} />
