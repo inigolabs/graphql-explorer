@@ -24,7 +24,7 @@ export interface ICodeEditorProps extends FormControl<string> {
   padding?: number;
   schema?: Maybe<{
     str: string;
-    doc: any;
+    doc?: any;
     version: number;
   }>;
   theme?: 'light' | 'dark';

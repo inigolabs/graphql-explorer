@@ -384,7 +384,7 @@ export default function Explorer(props: ExplorerProps) {
   );
 
   useEffect(() => {
-    if (url.includes('localhost') && proxyEnabled) {
+    if (url.includes("localhost") && proxyEnabled) {
       setProxyEnabled(false);
 
       message({

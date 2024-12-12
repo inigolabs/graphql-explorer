@@ -137,7 +137,7 @@ function Option(props: IOptionProps) {
   //   );
   // }
   if (props.render) {
-    return props.render(props);
+    return <div>{props.render(props)}</div>;
   }
 
   return (
