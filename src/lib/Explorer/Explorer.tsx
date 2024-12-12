@@ -693,7 +693,7 @@ export default function Explorer(props: ExplorerProps) {
 
           const operation = getOperationAST(
             parsedQuery,
-            getOperationName(parsedQuery)
+            getOperationName(parsedQuery as any)
           );
 
           if (operation?.variableDefinitions) {
@@ -984,7 +984,7 @@ export default function Explorer(props: ExplorerProps) {
               variables: options.variables,
               operationName: options.operationName,
             },
-            sink
+            sink as any
           );
         },
       };
@@ -1582,7 +1582,7 @@ export default function Explorer(props: ExplorerProps) {
         }
 
         const operationName =
-          getOperationName(activeTab.doc!) || (collectionName as string);
+          getOperationName(activeTab.doc! as any) || (collectionName as string);
 
         collection.operations.push({
           name: operationName,
@@ -1671,7 +1671,7 @@ export default function Explorer(props: ExplorerProps) {
         }
 
         const operationName =
-          getOperationName(activeTab.doc!) || (collectionName as string);
+          getOperationName(activeTab.doc! as any) || (collectionName as string);
 
         collection.operations.push({
           name: operationName,
@@ -1735,7 +1735,7 @@ export default function Explorer(props: ExplorerProps) {
       }
     } else {
       saveToCollectionFormRef.current?.setValue({
-        name: activeTab.doc ? getOperationName(activeTab.doc) : "",
+        name: activeTab.doc ? getOperationName(activeTab.doc as any) : "",
       });
       saveToCollectionModal.current?.open();
     }
@@ -1766,7 +1766,7 @@ export default function Explorer(props: ExplorerProps) {
       saveToSharedCollection(activeTab.collectionId, activeTab.collectionName);
     } else {
       saveToSharedCollectionFormRef.current?.setValue({
-        name: activeTab.doc ? getOperationName(activeTab.doc) : "",
+        name: activeTab.doc ? getOperationName(activeTab.doc as any) : "",
       });
       saveToSharedCollectionModal.current?.open();
     }
@@ -1818,7 +1818,7 @@ export default function Explorer(props: ExplorerProps) {
 
   const getTabName = useCallback((tab: ExplorerTab, i: number = 1) => {
     let tabName: string = tab.doc
-      ? getOperationName(tab.doc) || `New tab ${i + 1}`
+      ? getOperationName(tab.doc as any) || `New tab ${i + 1}`
       : `New tab ${i + 1}`;
 
     if (tab.collectionName) {
@@ -2059,7 +2059,7 @@ export default function Explorer(props: ExplorerProps) {
             saveToCollectionModal.current?.close();
           }}
         >
-          {!(!!activeTab.doc && getOperationName(activeTab.doc)) && (
+          {!(!!activeTab.doc && getOperationName(activeTab.doc as any)) && (
             <TextInput name="name" label="Name" required />
           )}
           {/* <Select name="collection" label="Collection" required>
