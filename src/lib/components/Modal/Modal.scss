@@ -1,4 +1,4 @@
-@import '../../styles/variables/variables.scss';
+@use '../../styles/variables/variables.scss';
 
 .ModalWrapper {
   display: flex;
@@ -11,7 +11,7 @@
   width: 100%;
   opacity: 0;
   pointer-events: none;
-  transition: $transition;
+  transition: variables.$transition;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.5);
 

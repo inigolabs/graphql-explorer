@@ -1,4 +1,4 @@
-@import '../../styles/variables/variables.scss';
+@use '../../styles/variables/variables.scss';
 
 .Select {
   position: relative;
@@ -85,7 +85,7 @@
     box-shadow: var(--shadow-medium);
     border-radius: 4px;
     transform: translateY(10px);
-    transition: opacity $transition, transform $transition;
+    transition: opacity variables.$transition, transform variables.$transition;
 
     .SelectOption {
       cursor: pointer;
@@ -97,7 +97,7 @@
       font-size: 14px;
       line-height: 22px;
       color: var(--color-text-secondary);
-      transition: background $transition;
+      transition: background variables.$transition;
 
       &:hover {
         background: var(--color-background-secondary);

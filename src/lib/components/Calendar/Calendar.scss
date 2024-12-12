@@ -1,4 +1,4 @@
-@import '../../styles/variables/variables.scss';
+@use '../../styles/variables/variables.scss';
 
 .CalendarContainer {
   display: flex;
@@ -106,7 +106,7 @@
           width: 100%;
           height: 100%;
           border-radius: var(--border-radius-regular);
-          transition: color $transition, background-color $transition;
+          transition: color variables.$transition, background-color variables.$transition;
 
           .Day {
             position: relative;
@@ -125,7 +125,7 @@
                 opacity: 1;
                 background-color: var(--color-text-primary);
                 border-radius: var(--border-radius-regular);
-                transition: opacity $transition;
+                transition: opacity variables.$transition;
               }
             }
           }

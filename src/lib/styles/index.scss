@@ -3,7 +3,8 @@
    License: none (public domain)
 */
 
-@import './variables/variables.scss';
+@use 'variables/variables.scss';
+@use "variables/fonts";
 
 :root {
   --easing: cubic-bezier(0.23, 1, 0.32, 1);
@@ -130,7 +131,7 @@ body {
   overflow: hidden;
   line-height: 1;
   margin: 0;
-  font-family: $font-family;
+  font-family: fonts.$font-family;
   background-color: var(--color-background-secondary);
   font-variant-numeric: tabular-nums;
 }
@@ -147,7 +148,7 @@ table {
 
 input,
 button {
-  font-family: $font-family;
+  font-family: fonts.$font-family;
   box-sizing: border-box;
   line-height: 1.5em;
 }

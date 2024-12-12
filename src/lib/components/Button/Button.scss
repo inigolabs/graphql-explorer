@@ -1,4 +1,4 @@
-@import '../../styles/variables/variables.scss';
+@use '../../styles/variables/variables.scss';
 
 .Button {
   display: flex;
@@ -19,7 +19,7 @@
   font-size: 14px;
   line-height: 22px;
 
-  transition: background $transition, border-color $transition;
+  transition: background variables.$transition, border-color variables.$transition;
 
   &:not(.disabled) {
     cursor: pointer;

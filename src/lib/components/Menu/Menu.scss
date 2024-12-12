@@ -1,4 +1,4 @@
-@import '../../styles/variables/variables.scss';
+@use '../../styles/variables/variables.scss';
 
 .Menu:not(.Date) {
   .MenuOptionWrapper {
@@ -41,7 +41,7 @@
     border: 1px solid var(--color-divider-primary);
     box-shadow: var(--shadow-medium);
     border-radius: 4px;
-    transition: opacity $transition, transform $transition;
+    transition: opacity variables.$transition, transform variables.$transition;
 
     .MenuSearch {
       padding: 8px 16px;
@@ -109,7 +109,7 @@
       line-height: 22px;
       color: var(--color-text-secondary);
       white-space: nowrap;
-      transition: background $transition, color $transition;
+      transition: background variables.$transition, color variables.$transition;
 
       &.IsButton+.MenuOption:not(.IsButton) {
         border-top: 1px solid var(--color-divider-primary);
@@ -195,7 +195,7 @@
       z-index: 100000;
       transform: none;
       pointer-events: all;
-      transition: opacity $transition, transform $transition;
+      transition: opacity variables.$transition, transform variables.$transition;
 
       .OptionsContent {
         display: flex;
@@ -205,7 +205,7 @@
 
   &.hover {
     .Options {
-      transition: opacity $transition, transform $transition;
+      transition: opacity variables.$transition, transform variables.$transition;
     }
   }
 
@@ -220,7 +220,7 @@
         z-index: 100000;
         transform: none;
         pointer-events: all;
-        transition: opacity $transition, transform $transition;
+        transition: opacity variables.$transition, transform variables.$transition;
 
         .OptionsContent {
           display: flex;
