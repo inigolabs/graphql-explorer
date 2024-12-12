@@ -1,8 +1,8 @@
-import './Tooltip.scss';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import classNames from 'classnames';
-import { ITooltipProps } from './Tooltip.types';
-import { createPortal } from 'react-dom';
+import "./Tooltip.scss";
+import { useEffect, useMemo, useRef, useState } from "react";
+import classNames from "classnames";
+import { ITooltipProps } from "./Tooltip.types";
+import { createPortal } from "react-dom";
 
 function Tooltip(props: ITooltipProps) {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,10 @@ function Tooltip(props: ITooltipProps) {
         setIsVisible(true);
       }, delay);
     } else {
-      if (targetRef.current && targetRef.current.scrollWidth > targetRef.current.offsetWidth) {
+      if (
+        targetRef.current &&
+        targetRef.current.scrollWidth > targetRef.current.offsetWidth
+      ) {
         timeout.current = window.setTimeout(() => {
           setIsVisible(true);
         }, delay);
@@ -48,7 +51,10 @@ function Tooltip(props: ITooltipProps) {
 
   const hide = () => {
     clearTimeout(timeout.current);
-    hideTimeout.current = window.setTimeout(() => setIsVisible(false), props.hideTimeout ?? 100);
+    hideTimeout.current = window.setTimeout(
+      () => setIsVisible(false),
+      props.hideTimeout ?? 100
+    );
   };
 
   useEffect(() => {
@@ -62,10 +68,13 @@ function Tooltip(props: ITooltipProps) {
 
         // for fixed position based on props
         if (props?.position) {
-          if (props?.position === 'top') {
+          if (props?.position === "top") {
             const fixedPosition = {
               top: targetRect.top - 12 - popupRect.height,
-              left: Math.max(5, targetRect.left + targetRect.width / 2 - popupRect.width / 2 + 8),
+              left: Math.max(
+                5,
+                targetRect.left + targetRect.width / 2 - popupRect.width / 2 + 8
+              ),
             };
             setAlignment({ ...alignment, bottom: false, top: true });
             setPosition(fixedPosition);
@@ -73,22 +82,34 @@ function Tooltip(props: ITooltipProps) {
             return;
           }
 
-          if (props?.position === 'bottom') {
+          if (props?.position === "bottom") {
             const fixedPosition = {
               top: targetRect.bottom + 6,
-              left: targetRect.left + targetRect.width / 2 - popupRect.width / 2,
+              left:
+                targetRect.left + targetRect.width / 2 - popupRect.width / 2,
             };
 
             let arrowPositionLeft = popupRect.width / 2 - 30;
 
-            if (fixedPosition.top + popupRect.height > window.innerHeight - 20) {
+            if (
+              fixedPosition.top + popupRect.height >
+              window.innerHeight - 20
+            ) {
               fixedPosition.top = targetRect.top - 12 - popupRect.height;
-              arrowPositionLeft = targetRect.left + targetRect.width / 2 - fixedPosition.left - 30;
+              arrowPositionLeft =
+                targetRect.left +
+                targetRect.width / 2 -
+                fixedPosition.left -
+                30;
             }
 
             if (fixedPosition.left + popupRect.width > window.innerWidth - 20) {
               fixedPosition.left = window.innerWidth - 20 - popupRect.width;
-              arrowPositionLeft = targetRect.left + targetRect.width / 2 - fixedPosition.left - 30;
+              arrowPositionLeft =
+                targetRect.left +
+                targetRect.width / 2 -
+                fixedPosition.left -
+                30;
             }
 
             setAlignment({ ...alignment, top: false, bottom: true });
@@ -105,8 +126,14 @@ function Tooltip(props: ITooltipProps) {
             left: targetRect.right + (props.hideArrow ? 4 : 10),
           };
 
-          if (position.top < 5 || position.top + popupRect.height > window.innerHeight - 5) {
-            position.top = Math.min(window.innerHeight - 5 - popupRect.height, Math.max(position.top, 5));
+          if (
+            position.top < 5 ||
+            position.top + popupRect.height > window.innerHeight - 5
+          ) {
+            position.top = Math.min(
+              window.innerHeight - 5 - popupRect.height,
+              Math.max(position.top, 5)
+            );
 
             setArrowPositionTop(targetRect.top - position.top + 10);
           } else {
@@ -118,7 +145,8 @@ function Tooltip(props: ITooltipProps) {
             setAlignment({ ...alignment, right: false, left: true });
           } else {
             setAlignment({ ...alignment, left: false, right: true });
-            position.left = targetRect.left - (props.hideArrow ? 4 : 10) - popupRect.width;
+            position.left =
+              targetRect.left - (props.hideArrow ? 4 : 10) - popupRect.width;
           }
 
           setPosition(position);
@@ -135,31 +163,36 @@ function Tooltip(props: ITooltipProps) {
   return (
     <div
       className={classNames(
-        'Tooltip',
+        "Tooltip",
         {
           Visible: (props.text || props.renderContent) && isVisible,
         },
-        props.parentClassName,
+        props.parentClassName
       )}
       style={props.style}
       onMouseEnter={() => show()}
       onMouseLeave={() => hide()}
+      onClick={props.onClick}
     >
       <div
-        className={classNames('TooltipTarget', props.targetClassName)}
+        className={classNames("TooltipTarget", props.targetClassName)}
         ref={targetRef as React.RefObject<HTMLDivElement>}
-        style={props.truncated ? { display: 'block', ...(props.targetStyle ?? {}) } : props.targetStyle}
+        style={
+          props.truncated
+            ? { display: "block", ...(props.targetStyle ?? {}) }
+            : props.targetStyle
+        }
       >
         {props.children}
       </div>
       {createPortal(
         <div
           className={classNames(
-            'Tooltip',
+            "Tooltip",
             {
               Visible: (props.text || props.renderContent) && isVisible,
             },
-            props.parentClassName,
+            props.parentClassName
           )}
           style={props.style}
           onMouseEnter={() => show()}
@@ -167,34 +200,49 @@ function Tooltip(props: ITooltipProps) {
         >
           {(!!props.text || !!renderedContent) && !props.disabled && (
             <div
-              className={classNames('TooltipPopup', props?.className, {
+              className={classNames("TooltipPopup", props?.className, {
                 Right: alignment.right,
                 Left: alignment.left,
                 Top: alignment.top,
                 Bottom: alignment.bottom,
               })}
               ref={popupRef as React.RefObject<HTMLDivElement>}
-              style={position ? { ...props.popupStyle, top: position.top, left: position.left } : props.popupStyle}
+              style={
+                position
+                  ? {
+                      ...props.popupStyle,
+                      top: position.top,
+                      left: position.left,
+                    }
+                  : props.popupStyle
+              }
             >
               {!props.hideArrow && (
                 <div
-                  className={classNames('TooltipArrow', props?.className, {
+                  className={classNames("TooltipArrow", props?.className, {
                     Right: alignment.right,
                     Left: alignment.left,
                     Top: alignment.top,
                     Bottom: alignment.bottom,
                   })}
-                  style={{ top: arrowPositionTop, left: arrowPositionLeft ? 24 + arrowPositionLeft + 'px' : undefined }}
+                  style={{
+                    top: arrowPositionTop,
+                    left: arrowPositionLeft
+                      ? 24 + arrowPositionLeft + "px"
+                      : undefined,
+                  }}
                 />
               )}
               {props.text}
               {props.renderContent ? (
-                <div className="TooltipPopupContent dark">{props?.renderContent(props)}</div>
+                <div className="TooltipPopupContent dark">
+                  {props?.renderContent(props)}
+                </div>
               ) : null}
             </div>
           )}
         </div>,
-        document.body,
+        document.body
       )}
     </div>
   );
@@ -202,4 +250,4 @@ function Tooltip(props: ITooltipProps) {
 
 export default Tooltip;
 
-export * from './Tooltip.types';
+export * from "./Tooltip.types";

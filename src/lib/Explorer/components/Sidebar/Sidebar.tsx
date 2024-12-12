@@ -1356,6 +1356,7 @@ function ExplorerSidebarSettings(props: ExplorerSidebarProps) {
             onChange={(value) => {
               props.onProxyEnabledChange?.(value);
             }}
+            disabled={props.url.includes("localhost")}
           />
         </div>
       </div>

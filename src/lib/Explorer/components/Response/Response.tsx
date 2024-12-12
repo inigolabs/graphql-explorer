@@ -124,6 +124,7 @@ export default function ExplorerResponse(props: ResponseProps) {
           defaultValue={JSON.stringify(props.tab.response?.data, null, 2)}
           defaultLanguage="json"
           readOnly
+          theme={props.theme}
         />
       </Tab>,
       <Tab label="Headers" path="headers">
@@ -135,6 +136,7 @@ export default function ExplorerResponse(props: ResponseProps) {
           defaultValue={JSON.stringify(props.tab.response?.headers, null, 2)}
           defaultLanguage="json"
           readOnly
+          theme={props.theme}
         />
       </Tab>,
     ];
@@ -150,6 +152,7 @@ export default function ExplorerResponse(props: ResponseProps) {
             defaultValue={props.preflightOutput.join("\n")}
             defaultLanguage="json"
             readOnly
+            theme={props.theme}
           />
         </Tab>
       );

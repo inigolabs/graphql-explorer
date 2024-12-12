@@ -516,6 +516,7 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
             props.onSelectedOperationNameChange?.(operationToRun());
             props.onCursorPositionChange?.(position);
           }}
+          theme={props.theme}
         />
       </div>
       <div className={styles.handle} onMouseDown={onMouseDown} />
@@ -554,6 +555,7 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               onChange={(value) =>
                 props.onTabUpdate?.((prev) => ({ ...prev, variables: value }))
               }
+              theme={props.theme}
             />
           </Tab>
           <Tab label="Extensions" path="extensions">
@@ -567,6 +569,7 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               onChange={(value) =>
                 props.onTabUpdate?.((prev) => ({ ...prev, extensions: value }))
               }
+              theme={props.theme}
             />
           </Tab>
           <Tab label="Headers" path="headers">
@@ -578,6 +581,7 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               defaultLanguage="json"
               defaultValue={props.headers}
               onChange={(value) => props.onHeadersUpdate?.(value)}
+              theme={props.theme}
             />
           </Tab>
         </TabView>

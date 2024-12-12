@@ -9,6 +9,7 @@ function App() {
         url: "https://staging.inigo.io/api/query",
       }}
       access="admin"
+      theme="dark"
     />
   );
 }

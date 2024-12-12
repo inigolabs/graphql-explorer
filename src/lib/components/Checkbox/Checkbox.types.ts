@@ -15,4 +15,5 @@ export interface CheckboxProps extends FormControl<boolean> {
   onText?: string;
   offText?: string;
   disabled?: boolean;
+  readOnly?: boolean;
 }

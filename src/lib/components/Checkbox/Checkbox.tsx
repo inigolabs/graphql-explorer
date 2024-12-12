@@ -61,6 +61,7 @@ const Checkbox = forwardRef<CheckboxRef, CheckboxProps>((props, ref) => {
         { [styles.checked]: value },
         styles[props.variant ?? CheckboxVariant.Default],
         props.disabled && styles.disabled,
+        props.readOnly && styles.readOnly,
         props.className
       )}
       data-scalar={true}
@@ -75,7 +76,7 @@ const Checkbox = forwardRef<CheckboxRef, CheckboxProps>((props, ref) => {
             setValue(e.target.checked);
             props.onChange?.(e.target.checked);
           }}
-          disabled={props.disabled}
+          disabled={props.disabled || props.readOnly}
         />
         {props.variant === CheckboxVariant.Switch ? (
           <div className={styles.switch}>

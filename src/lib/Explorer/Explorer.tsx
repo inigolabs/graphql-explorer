@@ -382,6 +382,18 @@ export default function Explorer(props: ExplorerProps) {
       }, 1000),
     []
   );
+
+  useEffect(() => {
+    if (url.includes('localhost') && proxyEnabled) {
+      setProxyEnabled(false);
+
+      message({
+        type: MessageType.Success,
+        text: "Proxy disabled for localhost",
+      });
+    }
+  }, [url, proxyEnabled]);
+
   const [schema, setSchema] = useState<IntrospectionQuery>();
 
   const [history, setHistory] = useState<ExplorerTabHistoryItem[]>(
@@ -2196,6 +2208,7 @@ export default function Explorer(props: ExplorerProps) {
               readOnly={
                 props.access === "user" && !import.meta.env.VITE_EXPLORER
               }
+              theme={props.theme}
               extraLib={`
             declare type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
               [K in T extends ReadonlyArray<infer U> ? U : never]: V;
@@ -2245,6 +2258,7 @@ export default function Explorer(props: ExplorerProps) {
             wordWrap="on"
             defaultValue={envVariables}
             onChange={(value) => throttledSetEnvVariables(value)}
+            theme={props.theme}
           />
         </Modal>
       </div>
