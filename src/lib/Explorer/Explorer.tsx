@@ -890,7 +890,7 @@ export default function Explorer(props: ExplorerProps) {
 
       setReady(true);
     }
-  }, [props.defaultState]);
+  }, []);
 
   const createFetcher = useCallback(
     (fetcherUrl: string, proxyEnabled?: boolean) => {
