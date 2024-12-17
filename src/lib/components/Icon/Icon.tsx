@@ -9,6 +9,8 @@ import Warning from "@mui/icons-material/Warning";
 import Check from "@mui/icons-material/Check";
 import TaskOutlined from "@mui/icons-material/TaskOutlined";
 import StopOutlined from "@mui/icons-material/StopOutlined";
+import X from "@mui/icons-material/X";
+import Login from "@mui/icons-material/Login";
 
 export {
   Add,
@@ -19,6 +21,8 @@ export {
   Check,
   TaskOutlined,
   StopOutlined,
+  Login,
+  X,
 };
 
 export function IconClose() {
