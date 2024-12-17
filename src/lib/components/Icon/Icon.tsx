@@ -7,8 +7,19 @@ import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUp from "@mui/icons-material/ArrowDropUp";
 import Warning from "@mui/icons-material/Warning";
 import Check from "@mui/icons-material/Check";
+import TaskOutlined from "@mui/icons-material/TaskOutlined";
+import StopOutlined from "@mui/icons-material/StopOutlined";
 
-export { Add, Clear, ArrowDropDown, ArrowDropUp, Warning, Check };
+export {
+  Add,
+  Clear,
+  ArrowDropDown,
+  ArrowDropUp,
+  Warning,
+  Check,
+  TaskOutlined,
+  StopOutlined,
+};
 
 export function IconClose() {
   return (
@@ -2503,5 +2514,4 @@ function Icon(props: IIconProps) {
   );
 }
 
-export * from "@mui/icons-material";
 export default Icon;
