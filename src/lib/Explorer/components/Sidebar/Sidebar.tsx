@@ -986,6 +986,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
           prefix={<Icon icon={<IconSearch />} size={16} />}
           placeholder="Filter"
           onChange={setSearchValue}
+          clearBtn
         />
       )}
       {!!objectType ? (
