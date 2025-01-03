@@ -78,6 +78,7 @@ function Menu(props: IMenuProps) {
     top: 0,
     minWidth: 0,
   });
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     const propsValue = props.value as [string, string];
@@ -131,11 +132,20 @@ function Menu(props: IMenuProps) {
             ))}
           </div>
           <div className="OptionsCustom">
-            <DateRange onChange={setValue} defaultSelected={value} />
+            <DateRange key={key} onChange={setValue} defaultSelected={value} />
           </div>
         </div>
         <div className="OptionsFooter" tabIndex={1}>
           <div className="OptionsFooterActions">
+            <Button
+              label="Clear"
+              type="link"
+              onClick={(ev) => {
+                ev.currentTarget.blur();
+                setValue(undefined);
+                setKey((prev) => prev + 1);
+              }}
+            />
             <Button
               label="Apply"
               onClick={(ev) => {

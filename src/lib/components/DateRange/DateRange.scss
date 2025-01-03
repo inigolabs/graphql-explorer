@@ -4,11 +4,12 @@
 
   .Inputs {
     display: flex;
-    gap: 4px;
+    gap: 16px;
     margin-bottom: 16px;
 
-    & > * {
+    &>* {
       width: 125px;
+      border: 1px solid var(--color-divider-primary) !important;
     }
   }
 
@@ -23,7 +24,7 @@
     display: flex;
     gap: 32px;
 
-    & > div {
+    &>div {
       flex: 1;
       display: flex;
       align-items: center;
@@ -40,7 +41,8 @@
     border-color: transparent;
   }
 
-  .Hours, .Minutes {
+  .Hours,
+  .Minutes {
     display: flex;
     width: 80px;
     height: 34px;

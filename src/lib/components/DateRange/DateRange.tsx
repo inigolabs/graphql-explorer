@@ -1,13 +1,16 @@
-import './DateRange.scss';
+import "./DateRange.scss";
 
-import { useState, useEffect, useRef } from 'react';
-import moment from 'moment';
-import Calendar, { TODAY, MIN } from '../Calendar/Calendar';
-import { IDateRangeProps, ITimeInputProps } from './DateRange.types';
-import Icon, { ArrowDown, ArrowUp, IconCalendar } from '../Icon/Icon';
-import classNames from 'classnames';
+import { useState, useEffect, useRef, useCallback } from "react";
+import moment from "moment";
+import Calendar, { TODAY, MIN } from "../Calendar/Calendar";
+import { IDateRangeProps, ITimeInputProps } from "./DateRange.types";
+import Icon, { ArrowDown, ArrowUp, IconCalendar } from "../Icon/Icon";
+import classNames from "classnames";
 
-const DEFAULT: [moment.Moment, moment.Moment] = [TODAY.clone().subtract(1, 'days'), TODAY];
+const DEFAULT: [moment.Moment, moment.Moment] = [
+  TODAY.clone().subtract(1, "days"),
+  TODAY,
+];
 
 function TimeInput(props: ITimeInputProps) {
   const [value, _setValue] = useState(props.value ?? [0, 0]);
@@ -60,33 +63,46 @@ function TimeInput(props: ITimeInputProps) {
     }
   };
 
-  const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: 0 | 1) => {
+  const onInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: 0 | 1
+  ) => {
     const stringValue = e.currentTarget.value;
     let numberValue = Number(stringValue);
 
     if (/[0-9]/.test(e.key)) {
-      if (e.currentTarget.selectionStart === 0 && e.currentTarget.selectionEnd === 2) {
-        e.currentTarget.value = '';
+      if (
+        e.currentTarget.selectionStart === 0 &&
+        e.currentTarget.selectionEnd === 2
+      ) {
+        e.currentTarget.value = "";
         numberValue = Number(e.key);
       } else {
         numberValue = Number(stringValue + e.key);
       }
-    } else if (e.key === 'Backspace') {
+    } else if (e.key === "Backspace") {
       numberValue = Number(stringValue.slice(0, -1));
     }
 
-    if (!Number.isSafeInteger(numberValue) || numberValue < opts[index].min || numberValue > opts[index].max) {
+    if (
+      !Number.isSafeInteger(numberValue) ||
+      numberValue < opts[index].min ||
+      numberValue > opts[index].max
+    ) {
       e.preventDefault();
     }
 
-    if (e.key === 'ArrowUp') {
+    if (e.key === "ArrowUp") {
       increment(index);
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowDown") {
       decrement(index);
     }
   };
 
-  const onInputChange = (e: React.FormEvent<HTMLInputElement>, index: 0 | 1) => {
+  const onInputChange = (
+    e: React.FormEvent<HTMLInputElement>,
+    index: 0 | 1
+  ) => {
     const stringValue = e.currentTarget.value;
     const numberValue = Number(stringValue);
 
@@ -101,11 +117,11 @@ function TimeInput(props: ITimeInputProps) {
   const stringValue = [value[0].toString(), value[1].toString()];
 
   if (stringValue[0].length === 1) {
-    stringValue[0] = '0' + stringValue[0];
+    stringValue[0] = "0" + stringValue[0];
   }
 
   if (stringValue[1].length === 1) {
-    stringValue[1] = '0' + stringValue[1];
+    stringValue[1] = "0" + stringValue[1];
   }
 
   return (
@@ -150,14 +166,37 @@ function DateRange(props: IDateRangeProps) {
   const [min, setMin] = useState(moment(props.min ?? MIN));
   const [max, setMax] = useState(moment(props.max ?? TODAY));
   const [activeIndex, setActiveIndex] = useState<0 | 1>(0);
-  const [timeSelected, setTimeSelected] = useState<[[number, number], [number, number]]>([
+  const [timeSelected, setTimeSelected] = useState<
+    [[number, number], [number, number]]
+  >([
     [0, 0],
     [0, 0],
   ]);
-  const [dateSelected, setDateSelected] = useState<[moment.Moment, moment.Moment]>(
-    props.selected ? [moment(props.selected[0]), moment(props.selected[1])] : DEFAULT
+  const [dateSelected, _setDateSelected] = useState<
+    [moment.Moment, moment.Moment]
+  >(
+    props.selected
+      ? [moment(props.selected[0]), moment(props.selected[1])]
+      : DEFAULT
   );
-  const inputsRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+  const [dateHovered, setDateHovered] = useState<moment.Moment | null>(null);
+
+  const setDateSelected = useCallback(
+    (value: [moment.Moment, moment.Moment]) => {
+      _setDateSelected(value);
+
+      setTimeSelected([
+        [0, 0],
+        [23, 59],
+      ]);
+    },
+    []
+  );
+
+  const inputsRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
 
   useEffect(() => {
     if (props.min !== undefined) {
@@ -180,8 +219,8 @@ function DateRange(props: IDateRangeProps) {
 
       if (
         dateSelected === undefined ||
-        !dateSelected[0].isSame(datesToSelect[0], 'days') ||
-        !dateSelected[1].isSame(datesToSelect[1], 'days')
+        !dateSelected[0].isSame(datesToSelect[0], "days") ||
+        !dateSelected[1].isSame(datesToSelect[1], "days")
       ) {
         setDateSelected(datesToSelect);
       }
@@ -200,12 +239,15 @@ function DateRange(props: IDateRangeProps) {
 
   useEffect(() => {
     if (props.selected !== undefined) {
-      const datesToSelect: [moment.Moment, moment.Moment] = [moment(props.selected[0]), moment(props.selected[1])];
+      const datesToSelect: [moment.Moment, moment.Moment] = [
+        moment(props.selected[0]),
+        moment(props.selected[1]),
+      ];
 
       if (
         dateSelected === undefined ||
-        !dateSelected[0].isSame(datesToSelect[0], 'days') ||
-        !dateSelected[1].isSame(datesToSelect[1], 'days')
+        !dateSelected[0].isSame(datesToSelect[0], "days") ||
+        !dateSelected[1].isSame(datesToSelect[1], "days")
       ) {
         setDateSelected(datesToSelect);
       }
@@ -224,8 +266,8 @@ function DateRange(props: IDateRangeProps) {
 
   useEffect(() => {
     if (inputsRefs[0].current && inputsRefs[1].current) {
-      inputsRefs[0].current.value = dateSelected[0].format('MM/DD/YYYY');
-      inputsRefs[1].current.value = dateSelected[1].format('MM/DD/YYYY');
+      inputsRefs[0].current.value = dateSelected[0].format("MM/DD/YYYY");
+      inputsRefs[1].current.value = dateSelected[1].format("MM/DD/YYYY");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateSelected, timeSelected]);
@@ -240,20 +282,29 @@ function DateRange(props: IDateRangeProps) {
 
           if (props.onChange) {
             props.onChange([
-              moment(newValue).hours(timeSelected[0][0]).minutes(timeSelected[0][1]).toISOString(),
-              moment(dateSelected[1]).hours(timeSelected[1][0]).minutes(timeSelected[1][1]).toISOString(),
-            ]);
-          }
-        } else {
-          setDateSelected([TODAY.clone().subtract(1, 'day'), dateSelected[1]]);
-
-          if (props.onChange) {
-            props.onChange([
-              moment(TODAY.clone().subtract(1, 'day'))
+              moment(newValue)
                 .hours(timeSelected[0][0])
                 .minutes(timeSelected[0][1])
                 .toISOString(),
-              moment(dateSelected[1]).hours(timeSelected[1][0]).minutes(timeSelected[1][1]).toISOString(),
+              moment(dateSelected[1])
+                .hours(timeSelected[1][0])
+                .minutes(timeSelected[1][1])
+                .toISOString(),
+            ]);
+          }
+        } else {
+          setDateSelected([TODAY.clone().subtract(1, "day"), dateSelected[1]]);
+
+          if (props.onChange) {
+            props.onChange([
+              moment(TODAY.clone().subtract(1, "day"))
+                .hours(timeSelected[0][0])
+                .minutes(timeSelected[0][1])
+                .toISOString(),
+              moment(dateSelected[1])
+                .hours(timeSelected[1][0])
+                .minutes(timeSelected[1][1])
+                .toISOString(),
             ]);
           }
         }
@@ -265,8 +316,14 @@ function DateRange(props: IDateRangeProps) {
 
           if (props.onChange) {
             props.onChange([
-              moment(dateSelected[0]).hours(timeSelected[0][0]).minutes(timeSelected[0][1]).toISOString(),
-              moment(newValue).hours(timeSelected[1][0]).minutes(timeSelected[1][1]).toISOString(),
+              moment(dateSelected[0])
+                .hours(timeSelected[0][0])
+                .minutes(timeSelected[0][1])
+                .toISOString(),
+              moment(newValue)
+                .hours(timeSelected[1][0])
+                .minutes(timeSelected[1][1])
+                .toISOString(),
             ]);
           }
         } else {
@@ -274,8 +331,14 @@ function DateRange(props: IDateRangeProps) {
 
           if (props.onChange) {
             props.onChange([
-              moment(dateSelected[0]).hours(timeSelected[0][0]).minutes(timeSelected[0][1]).toISOString(),
-              moment(TODAY.clone()).hours(timeSelected[1][0]).minutes(timeSelected[1][1]).toISOString(),
+              moment(dateSelected[0])
+                .hours(timeSelected[0][0])
+                .minutes(timeSelected[0][1])
+                .toISOString(),
+              moment(TODAY.clone())
+                .hours(timeSelected[1][0])
+                .minutes(timeSelected[1][1])
+                .toISOString(),
             ]);
           }
         }
@@ -286,48 +349,50 @@ function DateRange(props: IDateRangeProps) {
   return (
     <div className="DateRange">
       <div className="Inputs">
-        <div className={classNames('Input', { Focus: activeIndex === 0 })}>
+        <div className={classNames("Input")}>
           <div className="prefixIcon">
             <Icon size={16} icon={<IconCalendar />} />
           </div>
           <input
             ref={inputsRefs[0]}
             className="Field PrefixIcon"
-            defaultValue={dateSelected[0].format('MM/DD/YYYY')}
-            onFocus={() => setActiveIndex(0)}
+            value={dateSelected[0].format("MM/DD/YYYY")}
+            // onFocus={() => setActiveIndex(0)}
             // autoFocus={activeIndex === 0}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                setDateFromInput(e.currentTarget.value, 0);
-                setActiveIndex(1);
-                inputsRefs[1].current?.focus();
-              }
-            }}
-            onBlur={(e) => {
-              setDateFromInput(e.currentTarget.value, 0);
-            }}
+            // onKeyPress={(e) => {
+            //   if (e.key === "Enter") {
+            //     setDateFromInput(e.currentTarget.value, 0);
+            //     setActiveIndex(1);
+            //     inputsRefs[1].current?.focus();
+            //   }
+            // }}
+            // onBlur={(e) => {
+            //   setDateFromInput(e.currentTarget.value, 0);
+            // }}
+            readOnly
           />
         </div>
-        <div className={classNames('Input', { Focus: activeIndex === 1 })}>
+        <div className={classNames("Input")}>
           <div className="prefixIcon">
             <Icon size={16} icon={<IconCalendar />} />
           </div>
           <input
             ref={inputsRefs[1]}
             className="Field PrefixIcon"
-            defaultValue={dateSelected[1].format('MM/DD/YYYY')}
-            onFocus={() => setActiveIndex(1)}
+            value={dateSelected[1].format("MM/DD/YYYY")}
+            // onFocus={() => setActiveIndex(1)}
             // autoFocus={activeIndex === 1}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                setDateFromInput(e.currentTarget.value, 1);
-                setActiveIndex(0);
-                inputsRefs[0].current?.focus();
-              }
-            }}
-            onBlur={(e) => {
-              setDateFromInput(e.currentTarget.value, 1);
-            }}
+            // onKeyPress={(e) => {
+            //   if (e.key === "Enter") {
+            //     setDateFromInput(e.currentTarget.value, 1);
+            //     setActiveIndex(0);
+            //     inputsRefs[0].current?.focus();
+            //   }
+            // }}
+            // onBlur={(e) => {
+            //   setDateFromInput(e.currentTarget.value, 1);
+            // }}
+            readOnly
           />
         </div>
       </div>
@@ -336,7 +401,10 @@ function DateRange(props: IDateRangeProps) {
           min={min.toISOString()}
           max={max.toISOString()}
           onChange={(selected: string | [string, string]) => {
-            const newDateValue: [moment.Moment, moment.Moment] = [moment(selected[0]), moment(selected[1])];
+            const newDateValue: [moment.Moment, moment.Moment] = [
+              moment(selected[0]),
+              moment(selected[1]),
+            ];
 
             setDateSelected(newDateValue);
 
@@ -347,12 +415,23 @@ function DateRange(props: IDateRangeProps) {
               ];
 
               props.onChange([
-                moment(newDateValue[0]).hours(newTimeValue[0][0]).minutes(newTimeValue[0][1]).toISOString(),
-                moment(newDateValue[1]).hours(newTimeValue[1][0]).minutes(newTimeValue[1][1]).toISOString(),
+                moment(newDateValue[0])
+                  .hours(newTimeValue[0][0])
+                  .minutes(newTimeValue[0][1])
+                  .toISOString(),
+                moment(newDateValue[1])
+                  .hours(newTimeValue[1][0])
+                  .minutes(newTimeValue[1][1])
+                  .toISOString(),
               ]);
             }
           }}
-          selected={[dateSelected[0].toISOString(), dateSelected[1].toISOString()]}
+          selected={[
+            dateSelected[0].toISOString(),
+            dateSelected[1].toISOString(),
+          ]}
+          hovered={dateHovered?.toISOString()}
+          onHover={(date) => setDateHovered(moment(date))}
           activeIndex={activeIndex}
           onActiveIndexChange={(index) => setActiveIndex(index)}
           range
@@ -367,8 +446,14 @@ function DateRange(props: IDateRangeProps) {
 
               if (props.onChange) {
                 props.onChange([
-                  moment(dateSelected[0]).hours(value[0]).minutes(value[1]).toISOString(),
-                  moment(dateSelected[1]).hours(timeSelected[1][0]).minutes(timeSelected[1][1]).toISOString(),
+                  moment(dateSelected[0])
+                    .hours(value[0])
+                    .minutes(value[1])
+                    .toISOString(),
+                  moment(dateSelected[1])
+                    .hours(timeSelected[1][0])
+                    .minutes(timeSelected[1][1])
+                    .toISOString(),
                 ]);
               }
             }}
@@ -382,8 +467,14 @@ function DateRange(props: IDateRangeProps) {
 
               if (props.onChange) {
                 props.onChange([
-                  moment(dateSelected[0]).hours(timeSelected[0][0]).minutes(timeSelected[0][1]).toISOString(),
-                  moment(dateSelected[1]).hours(value[0]).minutes(value[1]).toISOString(),
+                  moment(dateSelected[0])
+                    .hours(timeSelected[0][0])
+                    .minutes(timeSelected[0][1])
+                    .toISOString(),
+                  moment(dateSelected[1])
+                    .hours(value[0])
+                    .minutes(value[1])
+                    .toISOString(),
                 ]);
               }
             }}

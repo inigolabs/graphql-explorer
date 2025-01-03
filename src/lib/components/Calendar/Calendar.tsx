@@ -167,28 +167,30 @@ function Calendar(props: ICalendarProps) {
     }
   };
 
+  const isHovered = (itemDate: moment.Moment) => {
+    if (props.hovered) {
+      const hovered = moment(props.hovered);
+      const maxSelected = Array.isArray(selected) ? selected[1] : selected;
+
+      const result =
+        itemDate.isSameOrBefore(hovered, "days") &&
+        itemDate.isAfter(maxSelected, "days") &&
+        hovered.isAfter(maxSelected, "days");
+
+      return result;
+    }
+
+    return false;
+  };
+
   const select = (itemDate: moment.Moment, index = activeIndex) => {
     let newSelected: typeof selected;
 
     if (Array.isArray(selected)) {
-      if (itemDate.isBefore(selected[0])) {
-        newSelected = [itemDate, selected[1]];
-
-        setActiveIndex(1);
-      } else if (itemDate.isAfter(selected[1])) {
+      if (itemDate.isAfter(selected[1])) {
         newSelected = [selected[0], itemDate];
-
-        setActiveIndex(0);
       } else {
-        if (index === 0) {
-          newSelected = [itemDate, selected[1]];
-
-          setActiveIndex(1);
-        } else {
-          newSelected = [selected[0], itemDate];
-
-          setActiveIndex(0);
-        }
+        newSelected = [itemDate, itemDate];
       }
     } else {
       newSelected = itemDate;
@@ -210,7 +212,14 @@ function Calendar(props: ICalendarProps) {
 
   const renderCalendar = (currentDate: moment.Moment) => {
     return (
-      <div className="Calendar">
+      <div
+        className="Calendar"
+        onMouseLeave={() => {
+          if (props.onHover) {
+            props.onHover("");
+          }
+        }}
+      >
         <div className="Head">
           <div className="Navigation">
             <button
@@ -276,6 +285,7 @@ function Calendar(props: ICalendarProps) {
                   className={classNames("Item", {
                     Selected: isSelected(itemDate),
                     Active: isActive(itemDate),
+                    Hover: isHovered(itemDate),
                     First: itemDate
                       .clone()
                       .startOf("month")
@@ -294,6 +304,11 @@ function Calendar(props: ICalendarProps) {
                       select(itemDate.clone());
                     } else {
                       select(itemDate.clone(), activeIndex === 0 ? 1 : 0);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (props.onHover) {
+                      props.onHover(itemDate.clone().toISOString());
                     }
                   }}
                   data-disabled={itemDate.isAfter(TODAY)}
