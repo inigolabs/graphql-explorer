@@ -2197,7 +2197,7 @@ export default function Explorer(props: ExplorerProps) {
             ),
             buttons: [
               {
-                label: "Cancel",
+                label: "Close",
                 tertiary: true,
                 handler: (close) => {
                   close();
