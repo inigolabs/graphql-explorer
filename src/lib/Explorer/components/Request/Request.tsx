@@ -19,10 +19,12 @@ import React, {
 } from "react";
 
 import Button from "../../../components/Button/Button";
+import NewButton, { ButtonSize } from "../../../components/Buttons/Button";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import { CheckboxVariant } from "../../../components/Checkbox/Checkbox.types";
 import { ICodeEditorRef } from "../../../components/code-editor/code-editor.types";
-import {
+import Icon, {
+  Eye,
   IconCollections,
   IconPlay,
   IconShare,
@@ -523,24 +525,68 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
       <div className={classNames(styles.other, styles.card)}>
         <TabView
           queryParamName="otherTabs"
+          actionsAlign="right"
           actions={
-            <div className={styles.globalActions}>
-              <Checkbox
-                variant={CheckboxVariant.Switch}
-                defaultValue={props.preflightEnabled}
-                onChange={(value) => props.onPreflightEnabledChange?.(value)}
-              />
-              <Button
-                label="Preflight script"
-                type="link"
-                onClick={props.onPreflightModalOpen}
-              />
-              <Button
-                label="Environment variables"
-                type="link"
-                onClick={props.onEnvVariablesModalOpen}
-              />
-            </div>
+            <Menu
+              target={
+                <NewButton size={ButtonSize.Small} icon>
+                  <Icon icon={<More />} size={16} />
+                </NewButton>
+              }
+            >
+              <Option>
+                <div
+                  className={styles.preflightToggle}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    props.onPreflightEnabledChange?.(!props.preflightEnabled);
+                  }}
+                >
+                  <Checkbox
+                    variant={CheckboxVariant.Switch}
+                    value={props.preflightEnabled}
+                  />
+                  Preflight script
+                </div>
+              </Option>
+              <Option>
+                <div
+                  className={styles.option}
+                  onClick={() => {
+                    props.onPreflightModalOpen?.();
+                  }}
+                >
+                  <Icon icon={<Eye />} size={16} />
+                  Preflight script
+                </div>
+              </Option>
+              <Option>
+                <div
+                  className={styles.option}
+                  onClick={() => {
+                    props.onEnvVariablesModalOpen?.();
+                  }}
+                >
+                  <Icon icon={<Eye />} size={16} />
+                  Environment variables
+                </div>
+              </Option>
+              {/* <Checkbox
+                  variant={CheckboxVariant.Switch}
+                  defaultValue={props.preflightEnabled}
+                  onChange={(value) => props.onPreflightEnabledChange?.(value)}
+                />
+                <Button
+                  label="Preflight script"
+                  type="link"
+                  onClick={props.onPreflightModalOpen}
+                />
+                <Button
+                  label="Environment variables"
+                  type="link"
+                  onClick={props.onEnvVariablesModalOpen}
+                /> */}
+            </Menu>
           }
         >
           <Tab label="Variables" path="variables">

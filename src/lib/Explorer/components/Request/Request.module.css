@@ -18,7 +18,7 @@
 }
 
 .request .handle::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -65,6 +65,23 @@
   padding-top: var(--gutter-small);
   width: 100%;
   /* overflow: hidden; */
+}
+
+.request .other .preflightToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gutter-regular);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.request .other .option {
+  display: flex;
+  align-items: center;
+  gap: var(--gutter-small);
+  color: var(--color-text-secondary);
+  font-weight: 400;
 }
 
 .request .globalActions {
