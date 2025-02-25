@@ -10,7 +10,7 @@ import {
   print,
 } from "graphql";
 import { createClient, Sink } from "graphql-ws";
-import { debounce, get, throttle } from "lodash";
+import { capitalize, debounce, get, throttle } from "lodash";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { getOperationName } from "@apollo/client/utilities";
@@ -278,6 +278,7 @@ interface ExplorerProps {
 }
 
 export default function Explorer(props: ExplorerProps) {
+  console.log(props.defaultState);
   useEffect(() => {
     document.title = `Explorer | Inigo`;
   }, []);
@@ -810,6 +811,7 @@ export default function Explorer(props: ExplorerProps) {
         activeTabId,
         tabs,
         collections,
+        sharedCollections,
         preflightScript,
         history,
         headers,
@@ -882,9 +884,9 @@ export default function Explorer(props: ExplorerProps) {
         setPreflightScript(props.defaultState?.preflightScript);
       }
 
-      if (props.defaultState?.collections) {
+      if (props.defaultState?.sharedCollections) {
         setSharedCollections(
-          props.defaultState?.collections as ExplorerCollection[]
+          props.defaultState?.sharedCollections as ExplorerCollection[]
         );
       }
 
@@ -2122,10 +2124,20 @@ export default function Explorer(props: ExplorerProps) {
 
               return (
                 <div className={styles.collectionsOption}>
-                  <Icon
-                    icon={type ? <IconUnlocked /> : <IconLocked />}
-                    size={16}
-                  />
+                  <Tooltip
+                    position={TooltipPosition.Bottom}
+                    text={capitalize(type)}
+                    popupStyle={{
+                      padding: "var(--gutter-extra-small) var(--gutter-small)",
+                    }}
+                  >
+                    <Icon
+                      icon={
+                        type === "shared" ? <IconUnlocked /> : <IconLocked />
+                      }
+                      size={16}
+                    />
+                  </Tooltip>
                   {name}
                 </div>
               );

@@ -2,12 +2,13 @@ import {
   ExplorerCollection,
   ExplorerTab,
   ExplorerTabHistoryItem,
-} from '../../Explorer/Explorer';
-const LOCAL_STORAGE_ID = 'inigo.localPreferences';
+} from "../../Explorer/Explorer";
+const LOCAL_STORAGE_ID = "inigo.localPreferences";
 
 export interface ILocalPreferencesDataExplorer {
   url?: string;
   collections?: ExplorerCollection[];
+  sharedCollections?: ExplorerCollection[];
   history?: ExplorerTabHistoryItem[];
   headers?: string;
   envVariables?: string;
@@ -28,7 +29,7 @@ export interface ILocalPreferencesData {
   navigationExpanded?: boolean;
   welcomeModal: string[];
   redirectTo?: string;
-  theme?: 'light' | 'dark' | 'system';
+  theme?: "light" | "dark" | "system";
   explorer: ILocalPreferencesDataExplorer;
   observe: {
     filtersPresets: {
@@ -43,10 +44,13 @@ export interface ILocalPreferencesData {
   };
   dataTablesMeta?: {
     version: number;
-    data: Record<string, {
-      columnsWidth: Record<string, number>;
-      columnsOrder: [string]
-    }>;
+    data: Record<
+      string,
+      {
+        columnsWidth: Record<string, number>;
+        columnsOrder: [string];
+      }
+    >;
   };
 }
 
@@ -74,7 +78,10 @@ class LocalPreferences {
     }
   }
 
-  set<T extends keyof ILocalPreferencesData>(key: T, value: ILocalPreferencesData[T]) {
+  set<T extends keyof ILocalPreferencesData>(
+    key: T,
+    value: ILocalPreferencesData[T]
+  ) {
     this.data[key] = value;
 
     localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.data));
