@@ -278,7 +278,6 @@ interface ExplorerProps {
 }
 
 export default function Explorer(props: ExplorerProps) {
-  console.log(props.defaultState);
   useEffect(() => {
     document.title = `Explorer | Inigo`;
   }, []);
@@ -1925,6 +1924,10 @@ export default function Explorer(props: ExplorerProps) {
         visible={isDrawerVisible}
         onClose={() => setIsDrawerVisible(false)}
         title="Schema"
+        style={{
+          top: 0,
+          height: "100%",
+        }}
       >
         {!!schema && (
           <Schema
@@ -2391,6 +2394,7 @@ export default function Explorer(props: ExplorerProps) {
 
                         return (
                           <div
+                            key={tab.id}
                             className={classNames(
                               styles.tab,
                               activeTab.id === tab.id && styles.active,

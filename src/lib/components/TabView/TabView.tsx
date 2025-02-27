@@ -114,25 +114,27 @@ const TabView = (props: TabViewProps) => {
           props.disabled && styles.Disabled
         )}
       >
-        {tabs.map((tab) => (
-          <button
-            key={tab.props.label}
-            className={classNames(styles.Button, {
-              [styles.Active]: tab.props.path === activeTabName,
-            })}
-            disabled={tab.props.disabled}
-            onClick={() => {
-              setActiveTab(tab);
+        <div className={styles.Buttons}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.props.label}
+              className={classNames(styles.Button, {
+                [styles.Active]: tab.props.path === activeTabName,
+              })}
+              disabled={tab.props.disabled}
+              onClick={() => {
+                setActiveTab(tab);
 
-              setTimeout(() => {
-                props.onSelect?.(tab.props);
-              }, 200);
-            }}
-          >
-            <span className={styles.Text}>{tab?.props.label}</span>
-            <span className={styles.TextActive}>{tab?.props.label}</span>
-          </button>
-        ))}
+                setTimeout(() => {
+                  props.onSelect?.(tab.props);
+                }, 200);
+              }}
+            >
+              <span className={styles.Text}>{tab?.props.label}</span>
+              <span className={styles.TextActive}>{tab?.props.label}</span>
+            </button>
+          ))}
+        </div>
         {!!props.actions && (
           <div
             className={classNames(

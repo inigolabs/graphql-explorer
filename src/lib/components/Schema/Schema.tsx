@@ -940,6 +940,7 @@ const ReferencesListItem = ({
             if (navigationMode === "query") {
               return (
                 <div
+                  key={i}
                   onClick={() => {
                     setSearchParams({
                       path: name,

@@ -113,10 +113,16 @@
   opacity: 0 !important;
 }
 
+.TabViewContainer .Navigation .Buttons {
+  display: flex;
+  gap: var(--tabview-navigation-gap, 16px);
+  flex: 1;
+  overflow-x: auto;
+}
+
 .TabViewContainer .Actions {
   display: flex;
   align-items: center;
-  flex: 1;
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
 }

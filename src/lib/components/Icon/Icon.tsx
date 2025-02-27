@@ -536,7 +536,7 @@ export function IconHome() {
 export function IconGlobe() {
   return (
     <>
-      <g clip-path="url(#clip0_27479_76298)">
+      <g clipPath="url(#clip0_27479_76298)">
         <mask id="path-1-inside-1_27479_76298" fill="white">
           <path
             fillRule="evenodd"

@@ -730,6 +730,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
 
               return (
                 <div
+                  key={pathPart}
                   className={styles.pathPart}
                   onClick={() => {
                     if (path) {
@@ -760,7 +761,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
             );
 
             return (
-              <div className={classNames(styles.field)}>
+              <div className={classNames(styles.field)} key={fieldName}>
                 <Checkbox
                   key={`${fieldName}:${
                     isFieldInQueryResult ? "true" : "false"
@@ -1106,7 +1107,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
                 const isActive = true;
 
                 return (
-                  <div className={classNames(styles.field)}>
+                  <div className={classNames(styles.field)} key={fieldName}>
                     <Checkbox
                       key={`${fieldName}:${
                         isFieldInQueryResult ? "true" : "false"
@@ -1234,8 +1235,8 @@ function ExplorerSidebarHistory(props: ExplorerSidebarProps) {
                 historyItem.serviceKey?.name === props.serviceKey?.name &&
                 historyItem.serviceKey?.label === props.serviceKey?.label
             )
-            .map((historyItem) => (
-              <div className={styles.itemWrapper}>
+            .map((historyItem, i) => (
+              <div className={styles.itemWrapper} key={i}>
                 <div
                   className={styles.item}
                   onClick={() => {

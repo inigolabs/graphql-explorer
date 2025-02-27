@@ -113,7 +113,7 @@ export default function ExplorerResponse(props: ResponseProps) {
     }
 
     const result = [
-      <Tab label="Response" path="response">
+      <Tab label="Response" path="response" key="response">
         <CodeEditor
           padding={0}
           key="response"
@@ -125,7 +125,7 @@ export default function ExplorerResponse(props: ResponseProps) {
           theme={props.theme}
         />
       </Tab>,
-      <Tab label="Headers" path="headers">
+      <Tab label="Headers" path="headers" key="headers">
         <CodeEditor
           padding={0}
           key="responseHeaders"
@@ -141,7 +141,7 @@ export default function ExplorerResponse(props: ResponseProps) {
 
     if (props.preflightOutput.length > 0) {
       result.push(
-        <Tab label="Preflight" path="preflight">
+        <Tab label="Preflight" path="preflight" key="preflight">
           <CodeEditor
             padding={0}
             key="preflightOutput"
