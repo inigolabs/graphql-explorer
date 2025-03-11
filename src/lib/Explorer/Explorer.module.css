@@ -344,3 +344,9 @@
   align-items: center;
   gap: var(--gutter-small);
 }
+
+.preflightModalTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--gutter-regular);
+}

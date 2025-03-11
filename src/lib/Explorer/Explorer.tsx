@@ -2234,14 +2234,14 @@ export default function Explorer(props: ExplorerProps) {
           ref={preflightModalRef}
           options={{
             title: (
-              <>
+              <div className={styles.preflightModalTitle}>
                 <span>Preflight script</span>
                 {props.access === "user" && !import.meta.env.VITE_EXPLORER && (
                   <Tooltip text="Only admin or owner can edit preflight script">
                     <Icon icon={<IconInfo />} size={24} />
                   </Tooltip>
                 )}
-              </>
+              </div>
             ),
             buttons: [
               {
