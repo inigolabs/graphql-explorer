@@ -43,7 +43,7 @@
 }
 
 .explorer .main .tab .current .handle::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -55,7 +55,8 @@
   transition: background-color var(--transition);
 }
 
-.explorer .main .tab .current .handle:hover::after, :global(.dragging) .explorer .main .tab .current .handle::after {
+.explorer .main .tab .current .handle:hover::after,
+:global(.dragging) .explorer .main .tab .current .handle::after {
   background-color: var(--color-text-primary);
 }
 
@@ -128,9 +129,7 @@
   width: fit-content;
   max-width: 150px;
   overflow: hidden;
-  transition:
-    color var(--transition),
-    border-color var(--transition),
+  transition: color var(--transition), border-color var(--transition),
     background-color var(--transition);
 }
 
@@ -200,9 +199,7 @@
   height: 2px;
   border-radius: 2px;
   background-color: var(--color-text-primary);
-  transition:
-    left var(--transition),
-    width var(--transition);
+  transition: left var(--transition), width var(--transition);
 }
 
 .explorer .editor {
@@ -314,9 +311,7 @@
   background-color: var(--color-background-primary);
   border: 1px solid var(--color-brand-primary);
   border-radius: 4px;
-  transition:
-    color var(--transition),
-    background-color var(--transition),
+  transition: color var(--transition), background-color var(--transition),
     border-color var(--transition);
 }
 

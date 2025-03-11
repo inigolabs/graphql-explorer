@@ -1574,6 +1574,10 @@ export default function Explorer(props: ExplorerProps) {
 
         if (operation) {
           if (!force) {
+            message({
+              type: MessageType.Error,
+              text: `Operation "${operation.name}" already exists in collection "${collection.name}"`,
+            });
             return prev;
           }
 
@@ -1663,6 +1667,10 @@ export default function Explorer(props: ExplorerProps) {
 
         if (operation) {
           if (!force) {
+            message({
+              type: MessageType.Error,
+              text: `Operation "${operation.name}" already exists in collection "${collection.name}"`,
+            });
             return prev;
           }
 
@@ -2031,14 +2039,39 @@ export default function Explorer(props: ExplorerProps) {
                   saveToCollectionFormRef.current?.getValue() as any;
                 let collectionId = values.collection as string;
 
-                let isShared = sharedCollections.some(
-                  (collection) => collection.id === collectionId
-                );
+                const isShared = collectionId.startsWith("shared:");
 
                 if (/^.*:.*:.*$/.test(collectionId)) {
                   collectionId = collectionId.split(":")[2];
+                }
+
+                let collection;
+
+                if (isShared) {
+                  collection = sharedCollections.find(
+                    (collection) => collection.id === collectionId
+                  );
                 } else {
-                  isShared = values.shared;
+                  collection = collections.find(
+                    (collection) => collection.id === collectionId
+                  );
+                }
+
+                if (
+                  collection?.operations?.some(
+                    (operation) => operation.name === values.name
+                  )
+                ) {
+                  message({
+                    type: MessageType.Error,
+                    text: `Operation "${
+                      values.name
+                    }" already exists in collection "${
+                      values.collection.split(":")[1]
+                    }"`,
+                  });
+
+                  return;
                 }
 
                 if (isShared) {
