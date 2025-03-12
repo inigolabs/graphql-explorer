@@ -13,6 +13,10 @@
   border-radius: var(--button-border-radius, var(--border-radius-regular));
 }
 
+.button.small {
+  padding: var(--button-padding, 0 var(--gutter-small));
+}
+
 .button.icon {
   width: 32px;
   height: 32px;

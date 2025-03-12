@@ -6,6 +6,7 @@
   width: 100%;
 
   --checkbox-margin: 0 calc(var(--gutter-small) * -1) 0 0;
+  --button-padding: var(--gutter-small);
 }
 
 :global(.dragging) {

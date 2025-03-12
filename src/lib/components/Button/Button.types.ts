@@ -4,9 +4,11 @@ export interface IButtonProps {
   style?: React.CSSProperties;
   icon?: JSX.Element | string;
   iconSize?: number;
+  size?: "small" | "default" | "large";
   loading?: boolean;
-  iconPosition?: 'right' | 'left';
+  iconPosition?: "right" | "left";
   disabled?: boolean;
-  type?: 'primary' | 'border' | 'link' | 'secondary' | 'ghost' | 'text';
+  type?: "primary" | "border" | "link" | "secondary" | "ghost" | "text";
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  tooltip?: string;
 }

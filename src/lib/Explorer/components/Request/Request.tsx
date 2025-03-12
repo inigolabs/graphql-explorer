@@ -39,6 +39,7 @@ import CodeEditor from "../../../components/code-editor";
 import { ExplorerTab } from "../../Explorer";
 import localPreferences from "../../../utils/localPreferences";
 import styles from "./Request.module.css";
+import { useWindowSize } from "../../../utils/helpers";
 
 export interface RequestProps {
   tab: ExplorerTab;
@@ -425,6 +426,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
     };
   }, [onMouseMove, onMouseUp]);
 
+  const { width } = useWindowSize();
+
   return (
     <div
       className={styles.request}
@@ -441,7 +444,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               className={styles.main}
               icon={<IconShare />}
               type="border"
-              label="Share"
+              label={width > 1440 ? "Share" : undefined}
+              tooltip={width > 1440 ? undefined : "Share"}
               onClick={() => copyShareableLink()}
             />
             <Menu
@@ -464,7 +468,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
             </Menu>
           </div>
           <Button
-            label="Save"
+            label={width > 1440 ? "Save" : undefined}
+            tooltip={width > 1440 ? undefined : "Save"}
             type="border"
             icon={<IconCollections />}
             onClick={props.onSaveToCollection}
@@ -474,7 +479,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               <Button
                 className={styles.main}
                 icon={<StopOutlined />}
-                label="Stop"
+                label={width > 1440 ? "Stop" : undefined}
+                tooltip={width > 1440 ? undefined : "Stop"}
                 onClick={() => props.terminateSubscription?.()}
               />
               <Button disabled={true} className={styles.more} icon={<More />} />
@@ -484,7 +490,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               <Button
                 className={styles.main}
                 icon={<IconPlay />}
-                label="Run"
+                label={width > 1440 ? "Run" : undefined}
+                tooltip={width > 1440 ? undefined : "Run"}
                 onClick={() => onQuery(operationToRun())}
               />
               <Menu

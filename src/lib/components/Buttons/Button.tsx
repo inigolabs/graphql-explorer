@@ -1,20 +1,21 @@
-import { forwardRef } from 'react';
-import styles from './Button.module.css';
-import cn from 'classnames';
+import { forwardRef } from "react";
+import styles from "./Button.module.css";
+import cn from "classnames";
+import Tooltip, { TooltipPosition } from "../Tooltip/Tooltip";
 
 export enum ButtonVariant {
-  Default = 'default',
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Outline = 'outline',
-  Text = 'text',
-  Link = 'link',
+  Default = "default",
+  Primary = "primary",
+  Secondary = "secondary",
+  Outline = "outline",
+  Text = "text",
+  Link = "link",
 }
 
 export enum ButtonSize {
-  Small = 'small',
-  Default = 'size_default',
-  Large = 'large',
+  Small = "small",
+  Default = "size_default",
+  Large = "large",
 }
 
 export interface ButtonProps {
@@ -26,6 +27,7 @@ export interface ButtonProps {
   disabled?: boolean;
   icon?: boolean;
   style?: React.CSSProperties;
+  tooltip?: string;
 }
 
 const Button = forwardRef<HTMLDivElement, ButtonProps>((props, ref) => {
@@ -35,7 +37,7 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>((props, ref) => {
     }
   };
 
-  return (
+  const innerNode = (
     <div
       ref={ref}
       tabIndex={props.disabled ? -1 : 0}
@@ -45,12 +47,12 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>((props, ref) => {
         styles[props.variant ?? ButtonVariant.Default],
         styles[props.size ?? ButtonSize.Default],
         props.disabled && styles.disabled,
-        props.className,
+        props.className
       )}
       style={props.style}
       onClick={onClick}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           onClick(e as unknown as React.MouseEvent<HTMLDivElement>);
         }
       }}
@@ -58,6 +60,22 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>((props, ref) => {
       {props.children}
     </div>
   );
+
+  if (props.tooltip) {
+    return (
+      <Tooltip
+        text={props.tooltip}
+        position={TooltipPosition.Bottom}
+        popupStyle={{
+          padding: "var(--gutter-extra-small) var(--gutter-small)",
+        }}
+      >
+        {innerNode}
+      </Tooltip>
+    );
+  }
+
+  return innerNode;
 });
 
 export default Button;

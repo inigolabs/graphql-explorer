@@ -1,5 +1,5 @@
 // import './Button.scss';
-import NewButton, { ButtonVariant } from "../Buttons/Button";
+import NewButton, { ButtonSize, ButtonVariant } from "../Buttons/Button";
 import { IButtonProps } from "./Button.types";
 import Icon from "../Icon/Icon";
 import { useMemo } from "react";
@@ -28,6 +28,16 @@ function Button(props: IButtonProps) {
     }
   }, [type]);
 
+  const size: ButtonSize = useMemo(() => {
+    if (props.size === "small") {
+      return ButtonSize.Small;
+    } else if (props.size === "large") {
+      return ButtonSize.Large;
+    } else {
+      return ButtonSize.Default;
+    }
+  }, [props.size]);
+
   return (
     <NewButton
       className={className}
@@ -35,6 +45,8 @@ function Button(props: IButtonProps) {
       onClick={onClick}
       variant={variant}
       disabled={disabled}
+      size={size}
+      tooltip={props.tooltip}
     >
       {!!icon && (iconPosition === "left" || !iconPosition) && (
         <Icon size={props.iconSize ?? 16} icon={icon} />
