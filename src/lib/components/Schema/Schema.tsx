@@ -888,9 +888,8 @@ const ReferencesListItem = ({
         <div className="SelectedTypeReferencesListItemNameIcon">
           <Icon icon={<ArrowDown />} size={12} />
         </div>
-
-        {name}
-        <div className="SelectedTypeReferencesListItemNameCount">{count}</div>
+        {name} ({count})
+        {/* <div className="SelectedTypeReferencesListItemNameCount">{count}</div> */}
       </div>
     );
   }, [
