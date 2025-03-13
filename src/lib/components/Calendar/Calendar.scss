@@ -1,4 +1,4 @@
-@use '../../styles/variables/variables.scss';
+@use "../../styles/variables/variables.scss";
 
 .CalendarContainer {
   display: flex;
@@ -25,11 +25,11 @@
         outline: none;
         color: var(--color-text-secondary);
 
-        &:not([data-disabled='true']) {
+        &:not([data-disabled="true"]) {
           cursor: pointer;
         }
 
-        &[data-disabled='true'] {
+        &[data-disabled="true"] {
           color: var(--color-text-disabled);
         }
       }
@@ -110,7 +110,8 @@
           width: 100%;
           height: 100%;
           border-radius: var(--border-radius-regular);
-          transition: color variables.$transition, background-color variables.$transition;
+          transition: color variables.$transition,
+            background-color variables.$transition;
 
           .Day {
             position: relative;
@@ -120,7 +121,7 @@
               font-weight: 500;
 
               &::after {
-                content: '';
+                content: "";
                 position: absolute;
                 width: 4px;
                 height: 4px;
@@ -153,7 +154,7 @@
           border-radius: var(--border-radius-regular);
 
           .Circle {
-            background-color: var(--color-brand-primary);
+            background-color: var(--color-background-date-selected);
             border-radius: var(--border-radius-regular);
 
             .Day {
@@ -170,11 +171,11 @@
           }
         }
 
-        &:not([data-disabled='true']) {
+        &:not([data-disabled="true"]) {
           cursor: pointer;
         }
 
-        &[data-disabled='true'] {
+        &[data-disabled="true"] {
           pointer-events: none;
           color: var(--color-text-disabled);
         }
@@ -188,7 +189,6 @@
     .Head {
       .Navigation {
         .NavigationButton {
-
           &.Next,
           &.Last {
             opacity: 0;
@@ -203,7 +203,6 @@
     .Head {
       .Navigation {
         .NavigationButton {
-
           &.Previous,
           &.First {
             opacity: 0;

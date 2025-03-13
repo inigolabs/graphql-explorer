@@ -29,6 +29,7 @@
   --color-background-bar-chart: #f6f8fa;
   --color-background-bar-chart-hover: #dfe1e6;
   --color-background-ghost-hover: #e9ebf0;
+  --color-background-date-selected: #484e63;
 
   --color-menu-hover: #313850;
 
@@ -160,6 +161,7 @@
   --color-background-bar-chart: #1f1f1f;
   --color-background-bar-chart-hover: #434343;
   --color-background-ghost-hover: #434343;
+  --color-background-date-selected: #4b5370;
 
   --color-menu-hover: #313850;
 
