@@ -46,6 +46,7 @@ import {
 import { message } from "../MessagesWrapper/MessagesWrapper.utils";
 import { MessageType } from "../MessagesWrapper/MessagesWrapper.types";
 import { isDirective } from "graphql";
+import Copy from "../Copy/Copy";
 
 const toLowerCase = (str?: string) => lowerCase(str).replace(/\s/g, "");
 
@@ -1198,22 +1199,28 @@ export function SelectedType({
                 )}
                 <div style={{ height: 24 }} />
                 {isFirstSelected && (
-                  <Tooltip
-                    parentClassName="SelectedTypeLineNumberShare"
-                    text="Copy shareable link"
-                    position={TooltipPosition.Top}
-                    popupStyle={{ fontFamily: "'Roboto', sans-serif" }}
-                    style={{
-                      width: "auto",
-                    }}
+                  <div
+                    className="SelectedTypeLineNumberShare"
+                    style={{ width: "auto" }}
                   >
-                    <div
-                      onClick={copyShareableLink}
-                      onMouseDown={(e) => e.stopPropagation()}
+                    <Copy
+                      value={window.location.href}
+                      text="Copy shareable link"
+                      // parentClassName="SelectedTypeLineNumberShare"
+                      // text="Copy shareable link"
+                      // position={TooltipPosition.Top}
+                      // popupStyle={{ fontFamily: "'Roboto', sans-serif" }}
+                      // style={{
+                      //   width: "auto",
+                      // }}
                     >
-                      <Icon icon={<IconShare />} size={12} />
-                    </div>
-                  </Tooltip>
+                      <Icon
+                        className="SelectedTypeLineNumberShareIcon"
+                        icon={<IconShare />}
+                        size={12}
+                      />
+                    </Copy>
+                  </div>
                 )}
               </div>
             );

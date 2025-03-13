@@ -1,4 +1,4 @@
-@use '../../styles/variables/variables';
+@use "../../styles/variables/variables";
 @use "../../styles/variables/fonts";
 
 .Schema {
@@ -157,7 +157,7 @@
     color: var(--color-text-secondary);
 
     &::after {
-      content: '';
+      content: "";
       width: 4px;
       height: 4px;
       border-radius: 4px;
@@ -187,7 +187,6 @@
       flex-direction: column;
       flex: 1;
       overflow: hidden;
-
 
       .TypeNavigationFilters {
         margin-bottom: 16px;
@@ -281,7 +280,7 @@
           }
 
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             left: 0;
             top: 0;
@@ -413,7 +412,7 @@
     flex-direction: column;
     position: relative;
     flex: 1;
-    font-family: 'Roboto Mono';
+    font-family: "Roboto Mono";
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
@@ -470,6 +469,11 @@
           left: 12px;
           top: 0;
           width: 24px;
+
+          .SelectedTypeLineNumberShareIcon {
+            cursor: pointer;
+            color: var(--color-text-secondary);
+          }
         }
 
         span {
@@ -479,7 +483,7 @@
           width: 9999999px;
         }
 
-        &>div {
+        & > div {
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -489,7 +493,6 @@
         }
       }
     }
-
 
     .Active {
       color: #f96893;
@@ -525,7 +528,7 @@
   .SelectedTypeDescription {
     display: flex;
     color: var(--color-text-secondary);
-    font-family: 'Roboto Mono';
+    font-family: "Roboto Mono";
     font-style: italic;
     font-weight: 400;
     font-size: 14px;
@@ -538,7 +541,7 @@
 
     &:after {
       display: block;
-      content: ' ';
+      content: " ";
       width: 16px;
       height: 16px;
       min-width: 16px;
@@ -548,7 +551,7 @@
   .SelectedTypePropertyDescription {
     display: flex;
     color: var(--color-text-secondary);
-    font-family: 'Roboto Mono';
+    font-family: "Roboto Mono";
     font-style: italic;
     font-weight: 400;
     font-size: 14px;
@@ -562,7 +565,7 @@
 
     &:after {
       display: block;
-      content: ' ';
+      content: " ";
       width: 16px;
       height: 16px;
       min-width: 16px;
@@ -617,7 +620,7 @@
     }
 
     .TagTooltip {
-      font-family: 'Roboto', sans-serif;
+      font-family: "Roboto", sans-serif;
       font-weight: 400;
       font-size: 12px;
       line-height: 18px;
@@ -625,7 +628,7 @@
 
     .join__type {
       cursor: pointer;
-      font-family: 'Roboto Mono', monospace;
+      font-family: "Roboto Mono", monospace;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
@@ -721,7 +724,7 @@
 
     &:after {
       display: block;
-      content: ' ';
+      content: " ";
       width: 16px;
       height: 16px;
       min-width: 16px;
@@ -734,12 +737,12 @@
 
   span {
     &::before {
-      content: '(';
+      content: "(";
       margin-left: 4px;
     }
 
     &::after {
-      content: ')';
+      content: ")";
     }
   }
 }

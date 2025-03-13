@@ -1,0 +1,31 @@
+@use "../../styles/variables/variables";
+@use "../../styles/variables/fonts";
+
+.CopyComponentWrapper {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.CopyComponentButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  white-space: nowrap;
+  font-size: 14px;
+  color: var(--color-accent);
+  padding: 0;
+}
+
+.CopyComponentFakeButton {
+  display: flex;
+  background: none;
+  border: none;
+  white-space: nowrap;
+  padding: 0;
+}
