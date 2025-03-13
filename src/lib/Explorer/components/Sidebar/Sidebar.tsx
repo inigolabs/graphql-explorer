@@ -2023,7 +2023,11 @@ export default function ExplorerSidebar(props: ExplorerSidebarProps) {
   );
 
   useEffect(() => {
-    updateQueryParamByName("sidebarTab", activeTab);
+    updateQueryParamByName(
+      "sidebarTab",
+      activeTab,
+      getQueryParamByName("sidebarTab") ? "push" : "replace"
+    );
   }, [activeTab]);
 
   return (

@@ -1650,6 +1650,7 @@ function Schema(props: ISchemaProps) {
             ...window.location,
             search: `?path=${props.data[0].name}`,
           }}
+          replace
         />
       );
     }
