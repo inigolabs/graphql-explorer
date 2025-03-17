@@ -1,45 +1,29 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 import {
-  getOperationAST,
-  IntrospectionInputObjectType,
-  IntrospectionInputTypeRef,
-  IntrospectionQuery,
-  OperationDefinitionNode,
-  parse,
-  TypeNode,
-} from "graphql";
+    getOperationAST, IntrospectionInputObjectType, IntrospectionInputTypeRef, IntrospectionQuery,
+    OperationDefinitionNode, parse, TypeNode
+} from 'graphql';
 import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+    forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState
+} from 'react';
 
-import Button from "../../../components/Button/Button";
-import NewButton, { ButtonSize } from "../../../components/Buttons/Button";
-import Checkbox from "../../../components/Checkbox/Checkbox";
-import { CheckboxVariant } from "../../../components/Checkbox/Checkbox.types";
-import { ICodeEditorRef } from "../../../components/code-editor/code-editor.types";
+import Button from '../../../components/Button/Button';
+import NewButton, { ButtonSize } from '../../../components/Buttons/Button';
+import Checkbox from '../../../components/Checkbox/Checkbox';
+import { CheckboxVariant } from '../../../components/Checkbox/Checkbox.types';
+import CodeEditor from '../../../components/code-editor';
+import { ICodeEditorRef } from '../../../components/code-editor/code-editor.types';
 import Icon, {
-  Eye,
-  IconCollections,
-  IconPlay,
-  IconShare,
-  More,
-  StopOutlined,
-} from "../../../components/Icon/Icon";
-import Menu, { Option } from "../../../components/Menu/Menu";
-import { MessageType } from "../../../components/MessagesWrapper/MessagesWrapper.types";
-import { message } from "../../../components/MessagesWrapper/MessagesWrapper.utils";
-import TabView, { Tab } from "../../../components/TabView/TabView";
-import CodeEditor from "../../../components/code-editor";
-import { ExplorerTab } from "../../Explorer";
-import localPreferences from "../../../utils/localPreferences";
-import styles from "./Request.module.css";
-import { useWindowSize } from "../../../utils/helpers";
+    Eye, IconCollections, IconPlay, IconShare, More, StopOutlined
+} from '../../../components/Icon/Icon';
+import Menu, { Option } from '../../../components/Menu/Menu';
+import { MessageType } from '../../../components/MessagesWrapper/MessagesWrapper.types';
+import { message } from '../../../components/MessagesWrapper/MessagesWrapper.utils';
+import TabView, { Tab } from '../../../components/TabView/TabView';
+import { useWindowSize } from '../../../utils/helpers';
+import localPreferences from '../../../utils/localPreferences';
+import { ExplorerTab } from '../../Explorer';
+import styles from './Request.module.css';
 
 export interface RequestProps {
   tab: ExplorerTab;
@@ -64,6 +48,7 @@ export interface RequestProps {
   isSubscriptionActive: boolean;
   terminateSubscription: (() => void) | null;
   theme?: "light" | "dark";
+  parentLayout: [number, number];
 }
 
 function getJsonSchemaVariableDefinition(
@@ -428,6 +413,14 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
 
   const { width } = useWindowSize();
 
+  const requestWidth = useMemo(() => {
+    return (width / 100) * props.parentLayout[0];
+  }, [width, props.parentLayout[0]]);
+
+  console.log({
+    requestWidth,
+  });
+
   return (
     <div
       className={styles.request}
@@ -444,8 +437,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               className={styles.main}
               icon={<IconShare />}
               type="border"
-              label={width > 1440 ? "Share" : undefined}
-              tooltip={width > 1440 ? undefined : "Share"}
+              label={requestWidth > 700 ? "Share" : undefined}
+              tooltip={requestWidth > 700 ? undefined : "Share"}
               onClick={() => copyShareableLink()}
             />
             <Menu
@@ -468,8 +461,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
             </Menu>
           </div>
           <Button
-            label={width > 1440 ? "Save" : undefined}
-            tooltip={width > 1440 ? undefined : "Save"}
+            label={requestWidth > 700 ? "Save" : undefined}
+            tooltip={requestWidth > 700 ? undefined : "Save"}
             type="border"
             icon={<IconCollections />}
             onClick={props.onSaveToCollection}
@@ -479,8 +472,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               <Button
                 className={styles.main}
                 icon={<StopOutlined />}
-                label={width > 1440 ? "Stop" : undefined}
-                tooltip={width > 1440 ? undefined : "Stop"}
+                label={requestWidth > 700 ? "Stop" : undefined}
+                tooltip={requestWidth > 700 ? undefined : "Stop"}
                 onClick={() => props.terminateSubscription?.()}
               />
               <Button disabled={true} className={styles.more} icon={<More />} />
@@ -490,8 +483,8 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
               <Button
                 className={styles.main}
                 icon={<IconPlay />}
-                label={width > 1440 ? "Run" : undefined}
-                tooltip={width > 1440 ? undefined : "Run"}
+                label={requestWidth > 700 ? "Run" : undefined}
+                tooltip={requestWidth > 700 ? undefined : "Run"}
                 onClick={() => onQuery(operationToRun())}
               />
               <Menu
