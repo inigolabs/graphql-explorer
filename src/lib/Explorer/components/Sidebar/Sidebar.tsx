@@ -9,31 +9,11 @@ import { escapeRegExp } from "lodash";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import {
-  ExplorerCollection,
-  ExplorerCollectionOperation,
-  ExplorerTab,
-  ExplorerTabHistoryItem,
-  guuid,
-} from "../../Explorer";
-import {
-  addAllScalarTypeFieldsToQuery,
-  addAllTypeFieldsToQuery,
-  addAllTypeFieldsToQueryRecursively,
-  addArgToField,
-  addFieldToQuery,
-  areAllTypeFieldsInQuery,
-  isArgInQuery,
-  isFieldInQuery,
-  removeArgFromField,
-  removeFieldFromQuery,
-  removeTypeFieldsFromQuery,
-} from "../../Explorer.utils";
+import Button from "../../../components/Button/Button";
 import NewButton, {
   ButtonSize,
   ButtonVariant,
 } from "../../../components/Buttons/Button";
-import Button from "../../../components/Button/Button";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import {
   CheckboxRef,
@@ -55,6 +35,7 @@ import Icon, {
   IconFolder,
   IconHistory,
   IconInfo,
+  IconLink,
   IconLocked,
   IconRefresh,
   IconRestore,
@@ -72,12 +53,12 @@ import Menu, { Option as MenuOption } from "../../../components/Menu/Menu";
 import { MessageType } from "../../../components/MessagesWrapper/MessagesWrapper.types";
 import { message } from "../../../components/MessagesWrapper/MessagesWrapper.utils";
 import Modal from "../../../components/Modal/Modal";
+import PopConfirm from "../../../components/PopConfirm/PopConfirm";
 import TextInput, {
   TextInputRef,
 } from "../../../components/TextInput/TextInput";
 import Tooltip, { TooltipPosition } from "../../../components/Tooltip/Tooltip";
-import { IconLink } from "../../../components/Icon/Icon";
-import PopConfirm from "../../../components/PopConfirm/PopConfirm";
+import { renderStringWithSearch } from "../../../utils/helpers";
 import {
   addQueryParamsListener,
   getQueryParamByName,
@@ -85,8 +66,27 @@ import {
   updateQueryParamByName,
 } from "../../../utils/queryParams";
 import { Maybe } from "../../../utils/types";
+import {
+  ExplorerCollection,
+  ExplorerCollectionOperation,
+  ExplorerTab,
+  ExplorerTabHistoryItem,
+  guuid,
+} from "../../Explorer";
+import {
+  addAllScalarTypeFieldsToQuery,
+  addAllTypeFieldsToQuery,
+  addAllTypeFieldsToQueryRecursively,
+  addArgToField,
+  addFieldToQuery,
+  areAllTypeFieldsInQuery,
+  isArgInQuery,
+  isFieldInQuery,
+  removeArgFromField,
+  removeFieldFromQuery,
+  removeTypeFieldsFromQuery,
+} from "../../Explorer.utils";
 import styles from "./Sidebar.module.css";
-import { renderStringWithSearch } from "../../../utils/helpers";
 
 enum ExplorerSidebarTabs {
   Docs = "docs",
@@ -627,8 +627,8 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
               props.onShowSchemaDrawer?.();
             }}
           >
-            Schema
             <Icon icon={<IconCode />} size={16} />
+            Schema
           </NewButton>
         )}
       </div>
@@ -1205,7 +1205,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
         </div>
       ) : (
         <div className={styles.loader}>
-          <Loader visible />
+          <Loader visible theme={props.theme} />
         </div>
       )}
     </div>

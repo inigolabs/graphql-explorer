@@ -1,29 +1,18 @@
-import styles from "./code-editor.module.css";
-import classNames from "classnames";
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
-import * as monaco from "monaco-editor";
+import classNames from 'classnames';
 import {
-  IntrospectionQuery,
-  ObjectTypeDefinitionNode,
-  getOperationAST,
-  parse,
-  visit,
-} from "graphql";
+    getOperationAST, IntrospectionQuery, ObjectTypeDefinitionNode, parse, visit
+} from 'graphql';
+import { debounce, uniqueId } from 'lodash';
+import * as monaco from 'monaco-editor';
 // @ts-ignore
-import { initializeMode } from "monaco-graphql/esm/initializeMode";
-import { ICodeEditorProps, ICodeEditorRef } from "./code-editor.types";
-import { debounce, uniqueId } from "lodash";
+import { MonacoGraphQLAPI } from 'monaco-graphql/esm/api';
 // @ts-ignore
-import { MonacoGraphQLAPI } from "monaco-graphql/esm/api";
-// @ts-ignore
-import { StandaloneCodeEditorServiceImpl } from "monaco-editor/esm/vs/editor/standalone/browser/StandaloneCodeEditorServiceImpl.js";
-import { updateQueryParams } from "../../utils/queryParams";
+import { initializeMode } from 'monaco-graphql/esm/initializeMode';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+
+import { updateQueryParams } from '../../utils/queryParams';
+import styles from './code-editor.module.css';
+import { ICodeEditorProps, ICodeEditorRef } from './code-editor.types';
 
 (window as any).monaco = monaco;
 

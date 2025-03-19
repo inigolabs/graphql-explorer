@@ -1,5 +1,8 @@
 import "./Schema.scss";
+
 import classNames from "classnames";
+import { isDirective } from "graphql";
+import { escapeRegExp, lowerCase, set } from "lodash";
 import {
   Fragment,
   useCallback,
@@ -9,6 +12,36 @@ import {
   useState,
 } from "react";
 import {
+  Link,
+  Navigate,
+  NavLink,
+  Route,
+  Routes,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+
+import { serviceToFullPath, serviceToPath } from "../../utils/helpers";
+import {
+  getQueryParamByName,
+  getUpdatedUrl,
+  updateQueryParamByName,
+} from "../../utils/queryParams";
+import Button, { ButtonSize } from "../Buttons/Button";
+import Copy from "../Copy/Copy";
+import Drawer from "../Drawer/Drawer";
+import Icon, {
+  ArrowDown,
+  ArrowRight,
+  IconGraph,
+  IconShare,
+} from "../Icon/Icon";
+import { LayoutWithNavigation } from "../LayoutWithNavigation/LayoutWithNavigation";
+import { MessageType } from "../MessagesWrapper/MessagesWrapper.types";
+import { message } from "../MessagesWrapper/MessagesWrapper.utils";
+import Select, { Option as SelectOption } from "../Select/Select";
+import Tooltip, { TooltipPosition } from "../Tooltip/Tooltip";
+import {
   ISchemaProps,
   ISchemaPropsItem,
   ISchemaPropsItemProperty,
@@ -16,37 +49,6 @@ import {
   ISchemaPropsItemType,
   ISchemaPropsModel,
 } from "./Schema.types";
-import Tooltip, { TooltipPosition } from "../Tooltip/Tooltip";
-import { lowerCase, escapeRegExp, set } from "lodash";
-import Select, { Option as SelectOption } from "../Select/Select";
-import Drawer from "../Drawer/Drawer";
-import {
-  Link,
-  NavLink,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-
-import Icon, {
-  ArrowDown,
-  ArrowRight,
-  IconGraph,
-  IconShare,
-} from "../Icon/Icon";
-import { serviceToFullPath, serviceToPath } from "../../utils/helpers";
-import Button, { ButtonSize } from "../Buttons/Button";
-import { LayoutWithNavigation } from "../LayoutWithNavigation/LayoutWithNavigation";
-import {
-  getQueryParamByName,
-  updateQueryParamByName,
-} from "../../utils/queryParams";
-import { message } from "../MessagesWrapper/MessagesWrapper.utils";
-import { MessageType } from "../MessagesWrapper/MessagesWrapper.types";
-import { isDirective } from "graphql";
-import Copy from "../Copy/Copy";
 
 const toLowerCase = (str?: string) => lowerCase(str).replace(/\s/g, "");
 
@@ -485,7 +487,16 @@ const renderType = (
               isScalar(td.TypeName) && "Scalar"
             )}
             key={td.TypeName}
-            to={`/${activeServiceId}/schema/schema/${td.TypeName}${window.location.search}`}
+            to={getUpdatedUrl(
+              {
+                requestId: null,
+                requestObservedAt: null,
+                requestHash: null,
+                tab: null,
+                errorIndex: null,
+              },
+              `/${activeServiceId}/schema/schema/${td.TypeName}${window.location.search}`
+            )}
             onClick={onClick}
           >
             {renderStringWithSearch(td.TypeName, searchValue)}
@@ -835,9 +846,18 @@ const ReferencesListItem = ({
       return (
         <Link
           className="SelectedTypeReferencesListItemName"
-          to={`/${serviceToPath(activeService)}/schema/schema/${name}${
-            window.location.search
-          }`}
+          to={getUpdatedUrl(
+            {
+              requestId: null,
+              requestObservedAt: null,
+              requestHash: null,
+              tab: null,
+              errorIndex: null,
+            },
+            `/${serviceToPath(activeService)}/schema/schema/${name}${
+              window.location.search
+            })`
+          )}
         >
           {name}
           <div className="SelectedTypeReferencesListItemImplements">
@@ -869,9 +889,18 @@ const ReferencesListItem = ({
       return (
         <Link
           className="SelectedTypeReferencesListItemName"
-          to={`/${serviceToPath(activeService)}/schema/schema/${name}${
-            window.location.search
-          }`}
+          to={getUpdatedUrl(
+            {
+              requestId: null,
+              requestObservedAt: null,
+              requestHash: null,
+              tab: null,
+              errorIndex: null,
+            },
+            `/${serviceToPath(activeService)}/schema/schema/${name}${
+              window.location.search
+            })`
+          )}
         >
           {name}
           <div className="SelectedTypeReferencesListItemImplements">

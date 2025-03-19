@@ -1,53 +1,56 @@
 export const FILTER_KEYS = [
-  'hasErrors_EQ',
-  'observedAt_GTEQ',
-  'observedAt_LTEQ',
-  'operationName_EQ',
-  'operationName_PRE',
-  'client_EQ',
-  'client_PRE',
-  'errorMessage_EQ',
-  'errorMessage_LIKE',
-  'errorMessage_FUZZY',
-  'traceId_EQ',
-  'errorPath_EQ',
-  'sourceAddr_EQ',
-  'organizationId_EQ',
-  'roles_IN',
-  'tag_EQ',
-  'operationName_IN',
-  'operationName_OUT',
-  'serverProcessTime_GTEQ',
-  'serverProcessTime_LTEQ',
-  'creditCost_GTEQ',
-  'creditCost_LTEQ',
-  'queryHash_EQ',
-  'reason_EQ',
-  'reason_IN',
-  'status_EQ',
-  'traceId_EQ',
-  'traceId_IN',
-  'userId_EQ',
-  'fieldPath_EQ',
-  'field_EQ',
-  'category_EQ',
-  'type_EQ',
-  'userName_EQ',
-  'serviceName_EQ',
-  'serviceId_EQ',
-  'version',
-  'role',
-  'operation',
-  'status',
-  'subgraph',
-  'subgraphs',
-  'tag',
-  'userEmail',
-  'userID',
-  'tokenId_EQ'
+  "hasErrors_EQ",
+  "observedAt_GTEQ",
+  "observedAt_LTEQ",
+  "operationName_EQ",
+  "operationName_PRE",
+  "client_EQ",
+  "client_PRE",
+  "errorMessage_EQ",
+  "errorMessage_LIKE",
+  "errorMessage_FUZZY",
+  "traceId_EQ",
+  "errorPath_EQ",
+  "sourceAddr_EQ",
+  "organizationId_EQ",
+  "roles_IN",
+  "tag_EQ",
+  "operationName_IN",
+  "operationName_OUT",
+  "serverProcessTime_GTEQ",
+  "serverProcessTime_LTEQ",
+  "creditCost_GTEQ",
+  "creditCost_LTEQ",
+  "queryHash_EQ",
+  "reason_EQ",
+  "reason_IN",
+  "status_EQ",
+  "traceId_EQ",
+  "traceId_IN",
+  "userId_EQ",
+  "fieldPath_EQ",
+  "field_EQ",
+  "category_EQ",
+  "type_EQ",
+  "userName_EQ",
+  "serviceName_EQ",
+  "serviceId_EQ",
+  "version",
+  "role",
+  "operation",
+  "status",
+  "subgraph",
+  "subgraphs",
+  "tag",
+  "userEmail",
+  "userID",
+  "tokenId_EQ",
 ];
 
-export const updateQueryParams = (update: Record<string, any>, historyStrategy: 'push' | 'replace' = 'push') => {
+export const updateQueryParams = (
+  update: Record<string, any>,
+  historyStrategy: "push" | "replace" = "push"
+) => {
   const params = new URLSearchParams(window.location.search);
 
   for (const name in update) {
@@ -61,15 +64,19 @@ export const updateQueryParams = (update: Record<string, any>, historyStrategy: 
   const url = `${window.location.pathname}?${params.toString()}`;
 
   if (url !== window.location.pathname + window.location.search) {
-    if (historyStrategy === 'replace') {
-      window.history.replaceState({}, '', url);
+    if (historyStrategy === "replace") {
+      window.history.replaceState({}, "", url);
     } else {
-      window.history.pushState({}, '', url);
+      window.history.pushState({}, "", url);
     }
   }
 };
 
-export const updateQueryParamByName = (name: string, value: any, historyStrategy: 'push' | 'replace' = 'push') => {
+export const updateQueryParamByName = (
+  name: string,
+  value: any,
+  historyStrategy: "push" | "replace" = "push"
+) => {
   const params = new URLSearchParams(window.location.search);
 
   params.set(name, value);
@@ -77,15 +84,18 @@ export const updateQueryParamByName = (name: string, value: any, historyStrategy
   const url = `${window.location.pathname}?${params.toString()}`;
 
   if (url !== window.location.pathname + window.location.search) {
-    if (historyStrategy === 'replace') {
-      window.history.replaceState({}, '', url);
+    if (historyStrategy === "replace") {
+      window.history.replaceState({}, "", url);
     } else {
-      window.history.pushState({}, '', url);
+      window.history.pushState({}, "", url);
     }
   }
 };
 
-export const deleteQueryParamByName = (name: string, historyStrategy: 'push' | 'replace' = 'push') => {
+export const deleteQueryParamByName = (
+  name: string,
+  historyStrategy: "push" | "replace" = "push"
+) => {
   const params = new URLSearchParams(window.location.search);
 
   if (params.has(name)) {
@@ -94,16 +104,19 @@ export const deleteQueryParamByName = (name: string, historyStrategy: 'push' | '
     const url = `${window.location.pathname}?${params.toString()}`;
 
     if (url !== window.location.pathname + window.location.search) {
-      if (historyStrategy === 'replace') {
-        window.history.replaceState({}, '', url);
+      if (historyStrategy === "replace") {
+        window.history.replaceState({}, "", url);
       } else {
-        window.history.pushState({}, '', url);
+        window.history.pushState({}, "", url);
       }
     }
   }
 };
 
-export const getQueryParamByName = (name: string, url = window.location.href) => {
+export const getQueryParamByName = (
+  name: string,
+  url = window.location.href
+) => {
   const params = new URL(url).searchParams;
 
   return params.get(name);
@@ -130,8 +143,8 @@ export const getQueryParamsFilter = (search = window.location.search) => {
 
   params.forEach((value, name) => {
     if (FILTER_KEYS.includes(name)) {
-      if (name.endsWith('_IN') || name.endsWith('_OUT')) {
-        const values = value.split(',').filter(Boolean);
+      if (name.endsWith("_IN") || name.endsWith("_OUT")) {
+        const values = value.split(",").filter(Boolean);
 
         if (values.length > 0) {
           result[name] = values;
@@ -145,7 +158,10 @@ export const getQueryParamsFilter = (search = window.location.search) => {
   return result;
 };
 
-export const replaceQueryParamsFilter = (filter: Record<string, any>, historyStrategy: 'push' | 'replace' = 'push') => {
+export const replaceQueryParamsFilter = (
+  filter: Record<string, any>,
+  historyStrategy: "push" | "replace" = "push"
+) => {
   const params = new URLSearchParams(window.location.search);
   const currentFilterParams = getQueryParamsFilter();
 
@@ -158,7 +174,7 @@ export const replaceQueryParamsFilter = (filter: Record<string, any>, historyStr
       params.delete(name);
     } else {
       if (Array.isArray(filter[name])) {
-        params.set(name, filter[name].join(','));
+        params.set(name, filter[name].join(","));
       } else {
         params.set(name, filter[name]);
       }
@@ -168,25 +184,27 @@ export const replaceQueryParamsFilter = (filter: Record<string, any>, historyStr
   const url = `${window.location.pathname}?${params.toString()}`;
 
   if (url !== window.location.pathname + window.location.search) {
-    if (historyStrategy === 'replace') {
-      window.history.replaceState({}, '', url);
+    if (historyStrategy === "replace") {
+      window.history.replaceState({}, "", url);
     } else {
-      window.history.pushState({}, '', url);
+      window.history.pushState({}, "", url);
     }
   }
 };
 
-export const clearQueryParams = (historyStrategy: 'push' | 'replace' = 'push') => {
-  if (historyStrategy === 'replace') {
-    window.history.replaceState({}, '', window.location.pathname);
+export const clearQueryParams = (
+  historyStrategy: "push" | "replace" = "push"
+) => {
+  if (historyStrategy === "replace") {
+    window.history.replaceState({}, "", window.location.pathname);
   } else {
-    window.history.pushState({}, '', window.location.pathname);
+    window.history.pushState({}, "", window.location.pathname);
   }
 };
 
 const callbacks: ((params: Record<string, any>) => void)[] = [];
 
-window.addEventListener('popstate', () => {
+window.addEventListener("popstate", () => {
   const params = getQueryParamsObject();
 
   callbacks.forEach((callback) => callback(params));
@@ -194,7 +212,11 @@ window.addEventListener('popstate', () => {
 
 const pushState = window.history.pushState;
 
-window.history.pushState = function (data: any, unused: string, url: string | URL | null | undefined) {
+window.history.pushState = function (
+  data: any,
+  unused: string,
+  url: string | URL | null | undefined
+) {
   if (!url) {
     return pushState.apply(window.history, [data, unused, url]);
   }
@@ -215,11 +237,15 @@ window.history.pushState = function (data: any, unused: string, url: string | UR
 
 const replaceState = window.history.replaceState;
 
-window.history.replaceState = function (data: any, unused: string, url: string | URL | null | undefined) {
+window.history.replaceState = function (
+  data: any,
+  unused: string,
+  url: string | URL | null | undefined
+) {
   if (!url) {
     return replaceState.apply(window.history, [data, unused, url]);
   }
-  
+
   const currentUrl = new URL(window.location.href);
   const newUrl = new URL(window.location.origin + url);
 
@@ -259,6 +285,10 @@ export const removeQueryParamsListener = (callback?: (typeof callbacks)[0]) => {
 };
 
 export const getUpdatedUrl = (params: Record<string, any>, href?: string) => {
+  if (href?.startsWith("/")) {
+    href = window.location.origin + href;
+  }
+
   const url = new URL(href ?? window.location.href);
 
   for (const key in params) {

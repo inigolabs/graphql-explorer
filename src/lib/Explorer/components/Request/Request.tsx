@@ -417,10 +417,6 @@ const ExplorerRequest: React.ForwardRefRenderFunction<
     return (width / 100) * props.parentLayout[0];
   }, [width, props.parentLayout[0]]);
 
-  console.log({
-    requestWidth,
-  });
-
   return (
     <div
       className={styles.request}
