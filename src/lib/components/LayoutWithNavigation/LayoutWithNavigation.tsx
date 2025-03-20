@@ -1,5 +1,5 @@
-import styles from "./LayoutWithNavigation.module.css";
 import classNames from "classnames";
+import { debounce, get } from "lodash";
 import {
   useCallback,
   useEffect,
@@ -10,14 +10,15 @@ import {
 } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
 import List from "react-virtualized/dist/es/List";
-import Icon, { ArrowDown, Collapse, Expand, IconSearch } from "../Icon/Icon";
-import TextInput, { TextInputRef } from "../TextInput/TextInput";
+
 import { renderStringWithSearch } from "../../utils/helpers";
-import Loader from "../Loader/Loader";
-import { debounce, get } from "lodash";
-import Empty from "../Empty/Empty";
 import Button, { ButtonVariant } from "../Buttons/Button";
+import Empty from "../Empty/Empty";
+import Icon, { ArrowDown, Collapse, Expand, IconSearch } from "../Icon/Icon";
+import Loader from "../Loader/Loader";
+import TextInput, { TextInputRef } from "../TextInput/TextInput";
 import Tooltip from "../Tooltip/Tooltip";
+import styles from "./LayoutWithNavigation.module.css";
 
 export interface LayoutWithNavigationProps {
   className?: string;
@@ -119,6 +120,7 @@ function NavigationItem(props: {
       className={(props) =>
         classNames(styles.item, props.isActive && styles.active)
       }
+      caseSensitive
       to={props.path}
       style={props.style}
       onClick={(ev) =>

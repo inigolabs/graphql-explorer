@@ -1135,9 +1135,10 @@ export function SelectedType({
       if (!onLineNumberSelectionChange) {
         return;
       }
-      if (line === 1 || line === propertiesToRender.length + 1) {
+      if (line === 1 || line === propertiesToRender.length + 2) {
         return;
       }
+      console.log(line);
       onLineNumberSelectionChange([line]);
       // initialY.current = e.clientY;
       // function onMouseMove(e: MouseEvent) {
@@ -1600,6 +1601,7 @@ function Schema(props: ISchemaProps) {
     return props.data?.map((item) => (
       <Route
         path={`/${item.name}`}
+        caseSensitive
         element={
           <SelectedType
             type={item}
