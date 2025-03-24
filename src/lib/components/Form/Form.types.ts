@@ -29,7 +29,8 @@ export type FormChild = React.ReactNode;
 
 export type FormValue = Record<string, unknown>;
 
-export interface FormRef extends FormControlRef<FormValue> {}
+export interface FormRef<T extends FormValue = FormValue>
+  extends FormControlRef<T> {}
 
 export interface FormProps extends FormControl<FormValue> {
   title?: React.ReactNode;

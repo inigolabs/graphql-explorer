@@ -17,6 +17,7 @@ import {
   NavLink,
   Route,
   Routes,
+  useLocation,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
@@ -114,10 +115,6 @@ const findTypeReferences = (
         foundItem.count += sameTypeName + args.length;
         foundItem.properties.push(property);
       }
-    }
-
-    if (item.tags?.length) {
-      console.log(item.tags);
     }
 
     if (item.implements?.includes(typeName)) {
@@ -1138,7 +1135,6 @@ export function SelectedType({
       if (line === 1 || line === propertiesToRender.length + 2) {
         return;
       }
-      console.log(line);
       onLineNumberSelectionChange([line]);
       // initialY.current = e.clientY;
       // function onMouseMove(e: MouseEvent) {
@@ -1530,6 +1526,7 @@ function Schema(props: ISchemaProps) {
   const [searchValue, setSearchValue] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onServiceClick = useCallback(
     (service: Service) => {
@@ -1584,6 +1581,12 @@ function Schema(props: ISchemaProps) {
   const [selectedLineNumbers, setSelectedLineNumbers] = useState<number[]>(
     getQueryParamByName("selectedLines")?.split(",").map(Number) ?? []
   );
+
+  useEffect(() => {
+    if (!getQueryParamByName("selectedLines")) {
+      setSelectedLineNumbers([]);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     updateQueryParamByName(
