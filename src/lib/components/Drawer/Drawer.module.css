@@ -29,6 +29,10 @@
   transition: transform var(--transition);
 }
 
+.drawer.fullWidth .content {
+  max-width: calc(100% - var(--sidebar-width, 0px));
+}
+
 :global(.dark) .content {
   box-shadow: 0px -7px 10px 0px rgba(18, 18, 18, 0.8);
 }

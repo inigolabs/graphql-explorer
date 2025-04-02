@@ -1581,31 +1581,31 @@ function ExplorerSidebarCollections(
     >
       <Modal
         ref={deleteModalRef}
-        className={styles.deleteModalContainer}
+        className="DeleteModalContainer"
         options={{ borderTopColor: "#FFC836" }}
       >
-        <div className={styles.deleteModal}>
-          <div className={styles.modalHeader}>
-            <div className={styles.modalIcon}>
-              <Icon size={32} icon={<IconWarningFilled />} />
+        <div className="DeleteModal">
+          <div className="ModalHeader">
+            <div className="ModalIcon">
+              <Icon size={24} icon={<IconWarningFilled />} />
             </div>
-            <h2 className={styles.modalTitle}>Warning</h2>
+            <h2 className="ModalTitle">Warning</h2>
           </div>
-          <div className={styles.modalContent}>
+          <div className="ModalContent">
             {collectionToDelete && (
-              <p className={styles.modalText}>
+              <p className="ModalText">
                 Are you sure you want to delete "{collectionToDelete.name}"
                 collection?
               </p>
             )}
             {collectionOperationToDelete && (
-              <p className={styles.modalText}>
+              <p className="ModalText">
                 Are you sure you want to delete "
                 {collectionOperationToDelete.name}" operation?
               </p>
             )}
           </div>
-          <div className={styles.modalActions}>
+          <div className="ModalActions">
             <Button
               label="Cancel"
               type="link"

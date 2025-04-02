@@ -1,12 +1,15 @@
-import styles from "./Drawer.module.css";
-import { DrawerProps } from "./Drawer.types";
+import classNames from "classnames";
+import { useEffect, useState } from "react";
+
 import Icon, { Close } from "../Icon/Icon";
 import Tooltip from "../Tooltip/Tooltip";
-import classNames from "classnames";
-import { useEffect } from "react";
+import styles from "./Drawer.module.css";
+import { DrawerProps } from "./Drawer.types";
 
 // million-ignore
 const Drawer = (props: DrawerProps) => {
+  const [fullWidth, setFullWidth] = useState(true);
+
   useEffect(() => {
     function onClick(e: MouseEvent) {
       if (props.visible) {
@@ -39,7 +42,10 @@ const Drawer = (props: DrawerProps) => {
 
   return (
     <div
-      className={classNames(styles.drawer, { [styles.visible]: props.visible })}
+      className={classNames(styles.drawer, {
+        [styles.visible]: props.visible,
+        [styles.fullWidth]: fullWidth,
+      })}
       style={props.style}
     >
       <div
