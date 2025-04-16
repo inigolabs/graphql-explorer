@@ -835,7 +835,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
                 size={ButtonSize.Small}
                 icon
                 onClick={updateSorting}
-                disabled={!docsPath}
+                disabled={!docsPath || !!searchValue}
               >
                 <Icon icon={<IconSortingArrows />} size={16} />
               </NewButton>
@@ -865,7 +865,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
                     }}
                     icon
                     size={ButtonSize.Small}
-                    disabled={!docsPath}
+                    disabled={!docsPath || !!searchValue}
                   >
                     <Icon icon={<IconCheckCircle />} size={16} />
                   </NewButton>
@@ -928,7 +928,7 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
                       }}
                       icon
                       size={ButtonSize.Small}
-                      disabled={!docsPath}
+                      disabled={!docsPath || !!searchValue}
                     >
                       <Icon icon={<AddCircle />} size={16} />
                     </NewButton>
@@ -942,11 +942,12 @@ function ExplorerSidebarDocs(props: ExplorerSidebarProps) {
                     className={styles.more}
                     icon
                     size={ButtonSize.Small}
-                    disabled={!docsPath}
+                    disabled={!docsPath || !!searchValue}
                   >
                     <Icon icon={<More />} size={16} />
                   </NewButton>
                 }
+                disabled={!docsPath || !!searchValue}
                 placement="left"
                 minWidth={125}
                 onSelect={(value: any) => {

@@ -1,51 +1,70 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 import {
-    DefinitionNode, DocumentNode, ExecutionResult, getIntrospectionQuery, getOperationAST,
-    IntrospectionQuery, parse, print
-} from 'graphql';
-import { createClient, Sink } from 'graphql-ws';
-import { capitalize, debounce, get, throttle } from 'lodash';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+  DefinitionNode,
+  DocumentNode,
+  ExecutionResult,
+  getIntrospectionQuery,
+  getOperationAST,
+  IntrospectionQuery,
+  parse,
+  print,
+} from "graphql";
+import { createClient, Sink } from "graphql-ws";
+import { capitalize, debounce, get, throttle } from "lodash";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { getOperationName } from '@apollo/client/utilities';
+import { getOperationName } from "@apollo/client/utilities";
 
-import AutoComplete from '../components/AutoComplete/AutoComplete';
-import Button from '../components/Button/Button';
-import Checkbox from '../components/Checkbox/Checkbox';
-import CodeEditor from '../components/code-editor';
-import { ICodeEditorRef } from '../components/code-editor/code-editor.types';
-import Drawer from '../components/Drawer/Drawer';
-import Form from '../components/Form/Form';
-import { FormRef } from '../components/Form/Form.types';
+import AutoComplete from "../components/AutoComplete/AutoComplete";
+import Button from "../components/Button/Button";
+import Checkbox from "../components/Checkbox/Checkbox";
+import CodeEditor from "../components/code-editor";
+import { ICodeEditorRef } from "../components/code-editor/code-editor.types";
+import Drawer from "../components/Drawer/Drawer";
+import Form from "../components/Form/Form";
+import { FormRef } from "../components/Form/Form.types";
 import Icon, {
-    AddCircle, ArrowLeft, ArrowRight, Close, IconCollectionsFilled, IconInfo, IconLocked,
-    IconUnlocked
-} from '../components/Icon/Icon';
-import { MessageType } from '../components/MessagesWrapper/MessagesWrapper.types';
-import { message } from '../components/MessagesWrapper/MessagesWrapper.utils';
-import Modal from '../components/Modal/Modal';
-import Schema from '../components/Schema/Schema';
+  AddCircle,
+  ArrowLeft,
+  ArrowRight,
+  Close,
+  IconCollectionsFilled,
+  IconInfo,
+  IconLocked,
+  IconUnlocked,
+} from "../components/Icon/Icon";
+import { MessageType } from "../components/MessagesWrapper/MessagesWrapper.types";
+import { message } from "../components/MessagesWrapper/MessagesWrapper.utils";
+import Modal from "../components/Modal/Modal";
+import Schema from "../components/Schema/Schema";
 import {
-    ISchemaPropsItemProperty, ISchemaPropsItemPropertyTypeDef, ISchemaPropsItemType,
-    ISchemaPropsModel
-} from '../components/Schema/Schema.types';
+  ISchemaPropsItemProperty,
+  ISchemaPropsItemPropertyTypeDef,
+  ISchemaPropsItemType,
+  ISchemaPropsModel,
+} from "../components/Schema/Schema.types";
 // import {
 //   ISchemaPropsItemProperty,
 //   ISchemaPropsItemPropertyTypeDef,
 //   ISchemaPropsItemType,
 //   ISchemaPropsModel,
 // } from "../components/Schema/Schema.types";
-import Select, { Option as SelectOption } from '../components/Select/Select';
-import TextInput from '../components/TextInput/TextInput';
-import Tooltip, { TooltipPosition } from '../components/Tooltip/Tooltip';
-import { useWindowSize } from '../utils/helpers';
-import localPreferences, { ILocalPreferencesData } from '../utils/localPreferences';
-import { deleteQueryParamByName, getQueryParamByName } from '../utils/queryParams';
-import { Maybe } from '../utils/types';
-import ExplorerRequest, { RequestRef } from './components/Request/Request';
-import ExplorerResponse from './components/Response/Response';
-import ExplorerSidebar from './components/Sidebar/Sidebar';
-import styles from './Explorer.module.css';
+import Select, { Option as SelectOption } from "../components/Select/Select";
+import TextInput from "../components/TextInput/TextInput";
+import Tooltip, { TooltipPosition } from "../components/Tooltip/Tooltip";
+import { useWindowSize } from "../utils/helpers";
+import localPreferences, {
+  ILocalPreferencesData,
+} from "../utils/localPreferences";
+import {
+  deleteQueryParamByName,
+  getQueryParamByName,
+} from "../utils/queryParams";
+import { Maybe } from "../utils/types";
+import ExplorerRequest, { RequestRef } from "./components/Request/Request";
+import ExplorerResponse from "./components/Response/Response";
+import ExplorerSidebar from "./components/Sidebar/Sidebar";
+import styles from "./Explorer.module.css";
 
 function parseTypeDetails(type: any): ISchemaPropsItemPropertyTypeDef {
   const typeDef: ISchemaPropsItemPropertyTypeDef = {
@@ -1567,8 +1586,10 @@ export default function Explorer(props: ExplorerProps) {
           );
         }
 
-        const operationName =
-          getOperationName(activeTab.doc! as any) || (collectionName as string);
+        const operationName = activeTab.doc
+          ? getOperationName(activeTab.doc! as any) ||
+            (collectionName as string)
+          : (collectionName as string);
 
         collection.operations.push({
           name: operationName,
@@ -1660,8 +1681,10 @@ export default function Explorer(props: ExplorerProps) {
           );
         }
 
-        const operationName =
-          getOperationName(activeTab.doc! as any) || (collectionName as string);
+        const operationName = activeTab.doc
+          ? getOperationName(activeTab.doc! as any) ||
+            (collectionName as string)
+          : (collectionName as string);
 
         collection.operations.push({
           name: operationName,

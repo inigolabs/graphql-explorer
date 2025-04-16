@@ -5,4 +5,7 @@ export interface DrawerProps {
   onClose?: () => void;
   children?: React.ReactNode;
   style?: React.CSSProperties;
+  actions?: React.ReactNode;
+  bodyClassName?: string;
+  bodyStyle?: React.CSSProperties;
 }
