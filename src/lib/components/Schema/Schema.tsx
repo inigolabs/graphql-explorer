@@ -431,7 +431,7 @@ const renderType = (
   activeServiceId?: string,
   onClick?: () => void,
   searchValue?: string | RegExp | ((str: string) => boolean),
-  navigationMode?: "router" | "query",
+  navigationMode?: "router" | "query" | "off",
   setSearchParams?: (params: Record<string, string>) => void
 ): React.ReactNode => {
   const result: React.ReactNode[] = [];
@@ -475,7 +475,7 @@ const renderType = (
             {renderStringWithSearch(td.TypeName, searchValue)}
           </span>
         );
-      } else {
+      } else if (navigationMode === "router") {
         result.push(
           <NavLink
             className={classNames(
@@ -498,6 +498,20 @@ const renderType = (
           >
             {renderStringWithSearch(td.TypeName, searchValue)}
           </NavLink>
+        );
+      } else {
+        result.push(
+          <span
+            className={classNames(
+              "SelectedTypePropertyArgsItemType",
+              "Active",
+              isScalar(td.TypeName) && "Scalar"
+            )}
+            key={td.TypeName}
+            onClick={onClick}
+          >
+            {renderStringWithSearch(td.TypeName, searchValue)}
+          </span>
         );
       }
     } else {
@@ -528,7 +542,7 @@ function renderSelectedTypePropertyType(
   onClick?: () => void,
   searchValue?: string | RegExp | ((str: string) => boolean),
   _onServiceClick?: (service: Service) => void,
-  navigationMode?: "router" | "query",
+  navigationMode?: "router" | "query" | "off",
   setSearchParams?: (params: Record<string, string>) => void
 ) {
   return (
@@ -559,7 +573,7 @@ function renderSelectedTypePropertyArgsItem(
   activeServiceId?: string,
   onClick?: () => void,
   searchValue?: string | RegExp | ((str: string) => boolean),
-  navigationMode?: "router" | "query",
+  navigationMode?: "router" | "query" | "off",
   setSearchParams?: (params: Record<string, string>) => void
 ) {
   return (
@@ -591,7 +605,7 @@ function renderSelectedTypePropertyArgs(
   activeServiceId?: string,
   onClick?: () => void,
   searchValue?: string | RegExp | ((str: string) => boolean),
-  navigationMode?: "router" | "query",
+  navigationMode?: "router" | "query" | "off",
   setSearchParams?: (params: Record<string, string>) => void
 ) {
   if (!args || !Object.keys(args).length) {
@@ -628,7 +642,7 @@ function renderSelectedTypeProperty(
   typeName?: string,
   showAnalytics = true,
   selectedLineNumbers?: number[],
-  navigationMode?: "router" | "query",
+  navigationMode?: "router" | "query" | "off",
   setSearchParams?: (params: Record<string, string>) => void
 ) {
   const isLineSelected = selectedLineNumbers?.includes(property.index + 2);
@@ -808,7 +822,7 @@ const ReferencesListItem = ({
   model: ISchemaPropsModel;
   typeName: string;
   activeService?: Service;
-  navigationMode: "router" | "query";
+  navigationMode: "router" | "query" | "off";
 }) => {
   const [_searchParams, setSearchParams] = useSearchParams();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -959,7 +973,7 @@ const ReferencesListItem = ({
               undefined,
               false,
               [],
-              navigationMode,
+              "off",
               setSearchParams
             );
 
@@ -1007,7 +1021,7 @@ const References = ({
   type: ISchemaPropsItem;
   activeService?: Service;
   selectedLineNumbers?: number[];
-  navigationMode: "router" | "query";
+  navigationMode: "router" | "query" | "off";
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -1089,7 +1103,7 @@ export function SelectedType({
   selectedLineNumbers?: number[];
   onLineNumberSelectionChange?: (lines: number[]) => void;
   filter?: Record<string, any>;
-  navigationMode: "router" | "query";
+  navigationMode: "router" | "query" | "off";
 }) {
   let prefix = "type";
 
@@ -1421,7 +1435,7 @@ function renderSearchResults(
   onClick: () => void,
   activeService?: Service,
   theme?: "dark" | "light",
-  navigationMode?: "router" | "query"
+  navigationMode?: "router" | "query" | "off"
 ) {
   const itemsToRender = items.filter(
     (item) =>
@@ -1549,7 +1563,7 @@ function Schema(props: ISchemaProps) {
   }, [theme]);
 
   const renderSearchResult = useCallback(
-    (search: string, navigationMode: "router" | "query") => {
+    (search: string, navigationMode: "router" | "query" | "off") => {
       if (props.data && search) {
         let renderedSearchResult = renderedSearchResultsCache[search];
 

@@ -407,6 +407,19 @@
     }
   }
 
+  .SelectedTypeInner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    overflow: auto;
+    flex: 1;
+    margin-left: calc(var(--gutter-medium) * -1);
+    margin-right: calc(var(--gutter-medium) * -1);
+    margin-bottom: calc(var(--gutter-medium) * -1);
+    padding-left: var(--gutter-medium);
+    padding-right: var(--gutter-medium);
+    padding-bottom: var(--gutter-medium);
+  }
+
   .SelectedType {
     display: flex;
     flex-direction: column;
@@ -422,19 +435,6 @@
     background-color: var(--color-background-primary);
     border: 1px solid var(--color-divider-primary);
     border-radius: 4px;
-
-    .SelectedTypeInner {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      overflow: auto;
-      flex: 1;
-      margin-left: calc(var(--gutter-medium) * -1);
-      margin-right: calc(var(--gutter-medium) * -1);
-      margin-bottom: calc(var(--gutter-medium) * -1);
-      padding-left: var(--gutter-medium);
-      padding-right: var(--gutter-medium);
-      padding-bottom: var(--gutter-medium);
-    }
 
     .SelectedTypeLineNumbers {
       display: flex;

@@ -301,3 +301,31 @@ export const getUpdatedUrl = (params: Record<string, any>, href?: string) => {
 
   return url.pathname + url.search;
 };
+
+export const updateCurrentUrl = (props: {
+  pathname?: string;
+  queryParams?: {
+    [key: string]: any;
+  };
+}) => {
+  const url = new URL(window.location.href);
+
+  if (props.pathname) {
+    url.pathname = props.pathname;
+  }
+
+  if (props.queryParams) {
+    for (const key in props.queryParams) {
+      if (
+        props.queryParams[key] === undefined ||
+        props.queryParams[key] === null
+      ) {
+        url.searchParams.delete(key);
+      } else {
+        url.searchParams.set(key, props.queryParams[key]);
+      }
+    }
+  }
+
+  return url.pathname + url.search;
+};
