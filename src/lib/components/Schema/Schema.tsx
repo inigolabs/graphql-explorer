@@ -2,10 +2,12 @@ import "./Schema.scss";
 
 import classNames from "classnames";
 import { isDirective } from "graphql";
-import { escapeRegExp, lowerCase, set } from "lodash";
+import { escapeRegExp, join, lowerCase, set } from "lodash";
 import {
+  createContext,
   Fragment,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -50,6 +52,20 @@ import {
   ISchemaPropsItemType,
   ISchemaPropsModel,
 } from "./Schema.types";
+import CodeEditor from "../code-editor";
+import { prepareSchemaData } from "./helpers";
+
+interface ISchemaContext {
+  requestSubgraphsData?: (
+    coordinate: string
+  ) => Promise<{ type: string; serviceName: string }[] | undefined>;
+}
+
+const SchemaContext = createContext<ISchemaContext>({} as ISchemaContext);
+
+const useSchemaContext = () => {
+  return useContext(SchemaContext);
+};
 
 const toLowerCase = (str?: string) => lowerCase(str).replace(/\s/g, "");
 
@@ -220,6 +236,7 @@ const Tags = ({
   searchValue?: string | RegExp | ((str: string) => boolean);
 }) => {
   const navigate = useNavigate();
+  const { requestSubgraphsData } = useSchemaContext();
 
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const result: React.ReactElement[] = [];
@@ -231,6 +248,51 @@ const Tags = ({
       t.key === "join__owner"
   );
 
+  const [subgraphsData, setSubgraphsData] = useState<
+    {
+      type: string;
+      serviceName: string;
+    }[]
+  >();
+
+  const schemas = useMemo(() => {
+    if (!typeName) {
+      return [];
+    }
+
+    return subgraphsData?.map((t: any) => {
+      const schema = prepareSchemaData(
+        { Types: { [t.type.Name]: t.type } },
+        true
+      );
+
+      const fieldName = typeName.split(".")[1];
+
+      return {
+        ...t,
+        schema: fieldName
+          ? schema?.map((item) => ({
+              ...item,
+              properties: item.properties.filter((property) => {
+                return (
+                  property.name === fieldName ||
+                  property.typeDetails.Name === fieldName
+                );
+              }),
+            }))
+          : schema,
+      };
+    });
+  }, [typeName, subgraphsData]);
+
+  useEffect(() => {
+    if (typeName && isDrawerVisible && requestSubgraphsData) {
+      requestSubgraphsData(typeName.split(".")[0]).then((data) => {
+        setSubgraphsData(data);
+      });
+    }
+  }, [typeName, isDrawerVisible, requestSubgraphsData]);
+
   if (join__type) {
     if (join__type.length > 1) {
       result.push(
@@ -241,11 +303,39 @@ const Tags = ({
             onClose={() => setIsDrawerVisible(false)}
           >
             <div className="join__type__drawer">
-              <div className="join__type__drawer__details">
-                Subgraphs ({join__type.length})
-              </div>
               <div className="join__type__drawer__list">
-                {join__type
+                {schemas
+                  ?.filter((schema) => schema.schema?.[0]?.properties?.length)
+                  .map((schema) => {
+                    const subService = activeService?.subServices?.find(
+                      (service) => service.name === schema.serviceName
+                    );
+
+                    return (
+                      <div className="join__type__drawer__list__item">
+                        <Link
+                          className="join__type__drawer__list__item__name"
+                          to={`/${serviceToPath(activeService)}:${
+                            schema.serviceName
+                          }/schema/schema/${schema.type.Name}`}
+                        >
+                          {schema.serviceName}
+                        </Link>
+                        <div className="Schema">
+                          <div className="SelectedType">
+                            <SelectedType
+                              type={schema.schema[0]}
+                              data={schema.schema}
+                              onClick={() => {}}
+                              activeService={subService as Service}
+                              navigationMode="router"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                {/* {join__type
                   .map((t) => {
                     const lowerCasedValue = toLowerCase(
                       (t.details.graph ?? t.details.name).Value.Value
@@ -281,7 +371,7 @@ const Tags = ({
                     >
                       {t.key}
                     </div>
-                  ))}
+                  ))} */}
               </div>
             </div>
           </Drawer>
@@ -1136,7 +1226,18 @@ export function SelectedType({
   }
 
   const hasProperties = type.properties?.length > 0;
-  const propertiesToRender = type.properties ?? [];
+  const propertiesToRender = hasProperties
+    ? [...type.properties].sort((a, b) => {
+        const aIndex = a.index ?? 0;
+        const bIndex = b.index ?? 0;
+
+        if (aIndex === bIndex) {
+          return a.name.localeCompare(b.name);
+        }
+
+        return aIndex - bIndex;
+      })
+    : [];
 
   // const initialY = useRef(0);
   const linesCount = propertiesToRender.length + 2;
@@ -1373,10 +1474,7 @@ export function SelectedType({
                 type.type === ISchemaPropsItemType.Interfaces) &&
                 propertiesToRender.map((property, i) =>
                   renderSelectedTypeProperty(
-                    {
-                      ...property,
-                      index: i,
-                    },
+                    property,
                     data,
                     onClick,
                     compact ? "" : searchValue,
@@ -1534,7 +1632,8 @@ function renderSearchResults(
 }
 
 function Schema(props: ISchemaProps) {
-  const { theme, activeService, activeParentService } = props;
+  const { theme, activeService, activeParentService, requestSubgraphsData } =
+    props;
   const [filter, setFilter] = useState(ISchemaPropsItemType.All);
 
   const [searchValue, setSearchValue] = useState("");
@@ -1724,140 +1823,154 @@ function Schema(props: ISchemaProps) {
   }
 
   return (
-    <LayoutWithNavigation
-      className="Schema"
-      search={{
-        enabled: true,
-      }}
-      onSearch={setSearchValue}
-      navigation={{
-        mode: props.navigationMode,
-        items: navigationItems,
-        renderItem: (item) =>
-          item.title === "inigo.schema" ? "schema" : item.title,
-        virtualization: {
-          enabled: true,
-        },
-        slot: (
-          <div className="TypeNavigationFilters">
-            <Select
-              style={
-                {
-                  "--text-input-background-color":
-                    "var(--color-background-primary)",
-                } as React.CSSProperties
-              }
-              value={filter}
-              prefix={<div className="SelectPrefix">Show</div>}
-              onChange={(value: unknown) =>
-                setFilter(value as ISchemaPropsItemType)
-              }
-            >
-              <SelectOption value={ISchemaPropsItemType.All}>
-                <div className="TypeNavigationFiltersOption">
-                  All <span>{getNavigationCount()}</span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Types}>
-                <div className="TypeNavigationFiltersOption">
-                  Types{" "}
-                  <span>{getNavigationCount(ISchemaPropsItemType.Types)}</span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Inputs}>
-                <div className="TypeNavigationFiltersOption">
-                  Inputs{" "}
-                  <span>{getNavigationCount(ISchemaPropsItemType.Inputs)}</span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Interfaces}>
-                <div className="TypeNavigationFiltersOption">
-                  Interfaces{" "}
-                  <span>
-                    {getNavigationCount(ISchemaPropsItemType.Interfaces)}
-                  </span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Enums}>
-                <div className="TypeNavigationFiltersOption">
-                  Enums{" "}
-                  <span>{getNavigationCount(ISchemaPropsItemType.Enums)}</span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Unions}>
-                <div className="TypeNavigationFiltersOption">
-                  Unions{" "}
-                  <span>{getNavigationCount(ISchemaPropsItemType.Unions)}</span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Scalars}>
-                <div className="TypeNavigationFiltersOption">
-                  Scalars{" "}
-                  <span>
-                    {getNavigationCount(ISchemaPropsItemType.Scalars)}
-                  </span>
-                </div>
-              </SelectOption>
-              <SelectOption value={ISchemaPropsItemType.Directives}>
-                <div className="TypeNavigationFiltersOption">
-                  Directives{" "}
-                  <span>
-                    {getNavigationCount(ISchemaPropsItemType.Directives)}
-                  </span>
-                </div>
-              </SelectOption>
-            </Select>
-          </div>
-        ),
-      }}
-      loading={props.loading}
-      empty={{
-        enabled: !props.loading && !props.data?.length,
-        message: "No schema was detected.",
+    <SchemaContext.Provider
+      value={{
+        requestSubgraphsData,
       }}
     >
-      {props.navigationMode === "query" ? (
-        !!searchValue.length ? (
-          <div className="SearchResult">
-            {renderSearchResult(searchValue, "query")}
-          </div>
-        ) : (
-          (path) => {
-            if (!path) {
-              return null;
-            }
-
-            return (
-              <div className="SelectedType">
-                <SelectedType
-                  type={props.data.find((item) => item.name === path)!}
-                  data={props.data}
-                  onClick={() => {}}
-                  activeService={activeService}
-                  onServiceClick={onServiceClick}
-                  filter={props.filter}
-                  compact={props.compact}
-                  navigationMode="query"
-                />
-              </div>
-            );
-          }
-        )
-      ) : (
-        <>
-          {!!searchValue.length && (
+      <LayoutWithNavigation
+        className="Schema"
+        search={{
+          enabled: true,
+        }}
+        onSearch={setSearchValue}
+        navigation={{
+          mode: props.navigationMode,
+          items: navigationItems,
+          renderItem: (item) =>
+            item.title === "inigo.schema" ? "schema" : item.title,
+          virtualization: {
+            enabled: true,
+          },
+          slot: (
+            <div className="TypeNavigationFilters">
+              <Select
+                style={
+                  {
+                    "--text-input-background-color":
+                      "var(--color-background-primary)",
+                  } as React.CSSProperties
+                }
+                value={filter}
+                prefix={<div className="SelectPrefix">Show</div>}
+                onChange={(value: unknown) =>
+                  setFilter(value as ISchemaPropsItemType)
+                }
+              >
+                <SelectOption value={ISchemaPropsItemType.All}>
+                  <div className="TypeNavigationFiltersOption">
+                    All <span>{getNavigationCount()}</span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Types}>
+                  <div className="TypeNavigationFiltersOption">
+                    Types{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Types)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Inputs}>
+                  <div className="TypeNavigationFiltersOption">
+                    Inputs{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Inputs)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Interfaces}>
+                  <div className="TypeNavigationFiltersOption">
+                    Interfaces{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Interfaces)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Enums}>
+                  <div className="TypeNavigationFiltersOption">
+                    Enums{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Enums)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Unions}>
+                  <div className="TypeNavigationFiltersOption">
+                    Unions{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Unions)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Scalars}>
+                  <div className="TypeNavigationFiltersOption">
+                    Scalars{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Scalars)}
+                    </span>
+                  </div>
+                </SelectOption>
+                <SelectOption value={ISchemaPropsItemType.Directives}>
+                  <div className="TypeNavigationFiltersOption">
+                    Directives{" "}
+                    <span>
+                      {getNavigationCount(ISchemaPropsItemType.Directives)}
+                    </span>
+                  </div>
+                </SelectOption>
+              </Select>
+            </div>
+          ),
+        }}
+        loading={props.loading}
+        empty={{
+          enabled: !props.loading && !props.data?.length,
+          message: "No schema was detected.",
+        }}
+      >
+        {props.navigationMode === "query" ? (
+          !!searchValue.length ? (
             <div className="SearchResult">
-              {renderSearchResult(searchValue, "router")}
+              {renderSearchResult(searchValue, "query")}
             </div>
-          )}
-          {!searchValue.length && (
-            <div className="SelectedType">
-              {!props.loading && <Routes>{routes}</Routes>}
-            </div>
-          )}
-        </>
-      )}
-    </LayoutWithNavigation>
+          ) : (
+            (path) => {
+              if (!path) {
+                return null;
+              }
+
+              return (
+                <div className="SelectedType">
+                  <SelectedType
+                    type={props.data.find((item) => item.name === path)!}
+                    data={props.data}
+                    onClick={() => {}}
+                    activeService={activeService}
+                    onServiceClick={onServiceClick}
+                    filter={props.filter}
+                    compact={props.compact}
+                    navigationMode="query"
+                  />
+                </div>
+              );
+            }
+          )
+        ) : (
+          <>
+            {!!searchValue.length && (
+              <div className="SearchResult">
+                {renderSearchResult(searchValue, "router")}
+              </div>
+            )}
+            {!searchValue.length && (
+              <div className="SelectedType">
+                {!props.loading && <Routes>{routes}</Routes>}
+              </div>
+            )}
+          </>
+        )}
+      </LayoutWithNavigation>
+    </SchemaContext.Provider>
   );
 }
 

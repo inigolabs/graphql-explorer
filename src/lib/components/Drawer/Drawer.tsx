@@ -42,6 +42,12 @@ const Drawer = (props: DrawerProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.onClose, props.visible]);
 
+  useEffect(() => {
+    if (props.visible) {
+      props.onShow?.();
+    }
+  }, [props.visible, props.onShow]);
+
   return (
     <div
       className={classNames(styles.drawer, {

@@ -4,7 +4,8 @@
 .Schema {
   color: var(--color-text-primary);
 
-  --drawer-max-width: 432px;
+  --drawer-max-width: calc(100% - 260px - 360px);
+  // --drawer-max-width: 432px;
 
   .SelectedTypeReferences {
     margin-bottom: 4px;
@@ -653,14 +654,28 @@
         flex-direction: column;
         gap: 8px;
 
+        // .join__type__drawer__list__item {
+        //   display: flex;
+        //   align-items: center;
+        //   gap: 8px;
+        //   cursor: pointer;
+        //   font-weight: 400;
+        //   font-size: 14px;
+        //   color: var(--color-accent);
+        // }
+
         .join__type__drawer__list__item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          font-weight: 400;
-          font-size: 14px;
-          color: var(--color-accent);
+          width: 100%;
+          .join__type__drawer__list__item__name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 14px;
+            color: var(--color-accent);
+            margin-bottom: 4px;
+          }
         }
       }
     }
