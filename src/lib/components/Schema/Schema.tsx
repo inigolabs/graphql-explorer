@@ -776,7 +776,9 @@ function renderSelectedTypeProperty(
             <Tooltip
               parentClassName="Observe"
               text="Observe"
-              popupStyle={{ fontFamily: "'Roboto', sans-serif" }}
+              popupStyle={{
+                padding: "var(--gutter-extra-small) var(--gutter-small)",
+              }}
               position={TooltipPosition.Top}
             >
               <Link
