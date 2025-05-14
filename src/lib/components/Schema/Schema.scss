@@ -761,3 +761,13 @@
     }
   }
 }
+
+.dark
+  .Schema
+  .SelectedTypeReferences
+  .SelectedTypeReferencesListWrapper
+  .SelectedTypeReferencesList
+  .SelectedTypeReferencesListItem
+  .SelectedTypeProperty:hover {
+  background-color: var(--color-background-button-secondary);
+}
