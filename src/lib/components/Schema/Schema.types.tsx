@@ -65,6 +65,7 @@ export interface ISchemaProps {
   basePath?: string;
   compact?: boolean;
   navigationMode?: "router" | "query";
+  hideDescription?: boolean;
   requestSubgraphsData?: (
     coordinate: string
   ) => Promise<{ type: string; serviceName: string }[] | undefined>;

@@ -52,7 +52,6 @@ import {
   ISchemaPropsItemType,
   ISchemaPropsModel,
 } from "./Schema.types";
-import CodeEditor from "../code-editor";
 import { prepareSchemaData } from "./helpers";
 
 interface ISchemaContext {
@@ -733,13 +732,14 @@ function renderSelectedTypeProperty(
   showAnalytics = true,
   selectedLineNumbers?: number[],
   navigationMode?: "router" | "query" | "off",
-  setSearchParams?: (params: Record<string, string>) => void
+  setSearchParams?: (params: Record<string, string>) => void,
+  hideDescription?: boolean
 ) {
   const isLineSelected = selectedLineNumbers?.includes(property.index + 2);
 
   return (
     <>
-      {property.description && (
+      {property.description && !hideDescription && (
         <div
           className={classNames("SelectedTypePropertyDescription", {
             Selected: isLineSelected,
@@ -827,11 +827,12 @@ function renderSelectedEnumProperty(
   _data: ISchemaPropsModel,
   searchValue?: string | RegExp | ((str: string) => boolean),
   activeService?: Service,
-  onServiceClick?: (service: Service) => void
+  onServiceClick?: (service: Service) => void,
+  hideDescription?: boolean
 ) {
   return (
     <>
-      {property.description && (
+      {property.description && !hideDescription && (
         <div
           className="SelectedTypePropertyDescription"
           key={`${property.name}__desc`}
@@ -865,11 +866,12 @@ function renderSelectedUnionProperty(
   onClick: () => void,
   searchValue?: string | RegExp | ((str: string) => boolean),
   activeService?: Service,
-  onServiceClick?: (service: Service) => void
+  onServiceClick?: (service: Service) => void,
+  hideDescription?: boolean
 ) {
   return (
     <>
-      {property.description && (
+      {property.description && !hideDescription && (
         <div
           className="SelectedTypePropertyDescription"
           key={`${property.name}__desc`}
@@ -1182,6 +1184,7 @@ export function SelectedType({
   onLineNumberSelectionChange,
   filter,
   navigationMode,
+  hideDescription,
 }: {
   type: ISchemaPropsItem;
   data: ISchemaPropsModel;
@@ -1194,6 +1197,7 @@ export function SelectedType({
   onLineNumberSelectionChange?: (lines: number[]) => void;
   filter?: Record<string, any>;
   navigationMode: "router" | "query" | "off";
+  hideDescription?: boolean;
 }) {
   let prefix = "type";
 
@@ -1305,68 +1309,72 @@ export function SelectedType({
         />
       )}
       <div className="SelectedTypeInner">
-        <div className="SelectedTypeLineNumbers">
-          {new Array(propertiesToRender.length + 2).fill(0).map((_, i, arr) => {
-            const line = i + 1;
-            const isFirstSelected = selectedLineNumbers
-              ? Math.min(...selectedLineNumbers) === line
-              : false;
+        {!hideDescription && (
+          <div className="SelectedTypeLineNumbers">
+            {new Array(propertiesToRender.length + 2)
+              .fill(0)
+              .map((_, i, arr) => {
+                const line = i + 1;
+                const isFirstSelected = selectedLineNumbers
+                  ? Math.min(...selectedLineNumbers) === line
+                  : false;
 
-            return (
-              <div
-                key={i}
-                className={classNames("SelectedTypeLineNumber", {
-                  Selected: selectedLineNumbers?.includes(line),
-                })}
-                onMouseDown={(e) => onMouseDown(e, line)}
-                // style={
-                //   {
-                //     "--max-chars": Math.max(
-                //       ...arr.map((_, i) => {
-                //         return (i + 1).toString().length;
-                //       })
-                //     ),
-                //   } as React.CSSProperties
-                // }
-              >
-                {!!propertiesToRender[i - 1]?.description && (
-                  <span>
-                    """
-                    <br />
-                    {propertiesToRender[i - 1]?.description}
-                    <br />
-                    """
-                  </span>
-                )}
-                <div style={{ height: 24 }} />
-                {isFirstSelected && (
+                return (
                   <div
-                    className="SelectedTypeLineNumberShare"
-                    style={{ width: "auto" }}
+                    key={i}
+                    className={classNames("SelectedTypeLineNumber", {
+                      Selected: selectedLineNumbers?.includes(line),
+                    })}
+                    onMouseDown={(e) => onMouseDown(e, line)}
+                    // style={
+                    //   {
+                    //     "--max-chars": Math.max(
+                    //       ...arr.map((_, i) => {
+                    //         return (i + 1).toString().length;
+                    //       })
+                    //     ),
+                    //   } as React.CSSProperties
+                    // }
                   >
-                    <Copy
-                      value={window.location.href}
-                      text="Copy shareable link"
-                      // parentClassName="SelectedTypeLineNumberShare"
-                      // text="Copy shareable link"
-                      // position={TooltipPosition.Top}
-                      // popupStyle={{ fontFamily: "'Roboto', sans-serif" }}
-                      // style={{
-                      //   width: "auto",
-                      // }}
-                    >
-                      <Icon
-                        className="SelectedTypeLineNumberShareIcon"
-                        icon={<IconShare />}
-                        size={12}
-                      />
-                    </Copy>
+                    {!!propertiesToRender[i - 1]?.description && (
+                      <span>
+                        """
+                        <br />
+                        {propertiesToRender[i - 1]?.description}
+                        <br />
+                        """
+                      </span>
+                    )}
+                    <div style={{ height: 24 }} />
+                    {isFirstSelected && (
+                      <div
+                        className="SelectedTypeLineNumberShare"
+                        style={{ width: "auto" }}
+                      >
+                        <Copy
+                          value={window.location.href}
+                          text="Copy shareable link"
+                          // parentClassName="SelectedTypeLineNumberShare"
+                          // text="Copy shareable link"
+                          // position={TooltipPosition.Top}
+                          // popupStyle={{ fontFamily: "'Roboto', sans-serif" }}
+                          // style={{
+                          //   width: "auto",
+                          // }}
+                        >
+                          <Icon
+                            className="SelectedTypeLineNumberShareIcon"
+                            icon={<IconShare />}
+                            size={12}
+                          />
+                        </Copy>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+          </div>
+        )}
         <div className="SelectedTypeProps">
           {type.description && (
             <div className="SelectedTypeDescription" key={`${type.name}__desc`}>
@@ -1486,7 +1494,8 @@ export function SelectedType({
                       : type.type === ISchemaPropsItemType.Types,
                     selectedLineNumbers,
                     navigationMode,
-                    setSearchParams
+                    setSearchParams,
+                    hideDescription
                   )
                 )}
               {type.type === ISchemaPropsItemType.Enums &&
@@ -1496,7 +1505,8 @@ export function SelectedType({
                     data,
                     searchValue,
                     activeService,
-                    onServiceClick
+                    onServiceClick,
+                    hideDescription
                   )
                 )}
               {type.type === ISchemaPropsItemType.Unions &&
@@ -1508,7 +1518,8 @@ export function SelectedType({
                     onClick,
                     searchValue,
                     activeService,
-                    onServiceClick
+                    onServiceClick,
+                    hideDescription
                   )
                 )}
               {!!searchValue && (
@@ -1533,7 +1544,8 @@ function renderSearchResults(
   onClick: () => void,
   activeService?: Service,
   theme?: "dark" | "light",
-  navigationMode?: "router" | "query" | "off"
+  navigationMode?: "router" | "query" | "off",
+  hideDescription?: boolean
 ) {
   const itemsToRender = items.filter(
     (item) =>
@@ -1577,7 +1589,7 @@ function renderSearchResults(
     return (
       <div className="SearchResultType">
         {
-          <div className="SearchResultTypeItems">
+          <div className="SearchResultTypeItems SelectedType">
             <SelectedType
               type={{
                 ...item,
@@ -1623,6 +1635,7 @@ function renderSearchResults(
               searchValue={searchValue}
               activeService={activeService}
               navigationMode={navigationMode || "router"}
+              hideDescription={hideDescription}
             />
           </div>
         }
@@ -1664,7 +1677,8 @@ function Schema(props: ISchemaProps) {
   const renderSearchResult = useCallback(
     (search: string, navigationMode: "router" | "query" | "off") => {
       if (props.data && search) {
-        let renderedSearchResult = renderedSearchResultsCache[search];
+        let renderedSearchResult =
+          renderedSearchResultsCache[search + props.hideDescription];
 
         if (!renderedSearchResult) {
           renderedSearchResult = renderSearchResults(
@@ -1676,19 +1690,26 @@ function Schema(props: ISchemaProps) {
             },
             activeService,
             theme,
-            navigationMode
+            navigationMode,
+            props.hideDescription
           );
 
           setRenderedSearchResultsCache((prev) => ({
             ...prev,
-            [search]: renderedSearchResult,
+            [search + props.hideDescription]: renderedSearchResult,
           }));
         }
 
         return renderedSearchResult;
       }
     },
-    [renderedSearchResultsCache, searchValue, activeService, theme]
+    [
+      renderedSearchResultsCache,
+      searchValue,
+      activeService,
+      theme,
+      props.hideDescription,
+    ]
   );
 
   const [selectedLineNumbers, setSelectedLineNumbers] = useState<number[]>(
@@ -1728,6 +1749,7 @@ function Schema(props: ISchemaProps) {
             activeService={activeService}
             onServiceClick={onServiceClick}
             selectedLineNumbers={selectedLineNumbers}
+            hideDescription={props.hideDescription}
             onLineNumberSelectionChange={setSelectedLineNumbers}
             filter={props.filter}
             compact={props.compact}
@@ -1950,6 +1972,7 @@ function Schema(props: ISchemaProps) {
                     filter={props.filter}
                     compact={props.compact}
                     navigationMode="query"
+                    hideDescription={props.hideDescription}
                   />
                 </div>
               );
