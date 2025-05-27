@@ -1951,6 +1951,7 @@ function Schema(props: ISchemaProps) {
           enabled: !props.loading && !props.data?.length,
           message: "No schema was detected.",
         }}
+        theme={props.theme}
       >
         {props.navigationMode === "query" ? (
           !!searchValue.length ? (

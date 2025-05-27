@@ -56,6 +56,7 @@ export interface LayoutWithNavigationProps {
     enabled: boolean;
     message?: string;
   };
+  theme?: "light" | "dark";
 }
 
 function NavigationItem(props: {
@@ -136,6 +137,7 @@ function Navigation(
   props: LayoutWithNavigationProps["navigation"] & {
     search?: string;
     clearSearch?: () => void;
+    theme?: "light" | "dark";
   }
 ) {
   const ref = useRef<HTMLDivElement>(null);
@@ -386,7 +388,7 @@ function Navigation(
         {result}
         {props.lazyLoad?.hasMore && (
           <div className={styles.listLoader}>
-            <Loader visible />
+            <Loader visible theme={props.theme} />
           </div>
         )}
       </div>
@@ -454,9 +456,12 @@ export function LayoutWithNavigation(props: LayoutWithNavigationProps) {
                 {...props.navigation}
                 search={search}
                 clearSearch={clearSearch}
+                theme={props.theme}
               />
             )}
-            {props.loading && <Loader className={styles.loader} visible />}
+            {props.loading && (
+              <Loader className={styles.loader} visible theme={props.theme} />
+            )}
           </div>
           <div className={styles.divider} />
           <div className={styles.content}>
@@ -464,7 +469,9 @@ export function LayoutWithNavigation(props: LayoutWithNavigationProps) {
               (typeof props.children === "function"
                 ? props.children(searchParams.get("path") || "")
                 : props.children)}
-            {props.loading && <Loader className={styles.loader} visible />}
+            {props.loading && (
+              <Loader className={styles.loader} visible theme={props.theme} />
+            )}
           </div>
         </>
       )}

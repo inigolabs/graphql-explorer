@@ -639,6 +639,10 @@
       font-size: 12px;
       line-height: 18px;
       color: var(--color-accent);
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .join__type__drawer {
@@ -679,6 +683,10 @@
             font-size: 14px;
             color: var(--color-accent);
             margin-bottom: 4px;
+
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
       }
