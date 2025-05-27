@@ -618,6 +618,10 @@
 
     .Badge {
       margin-left: 0px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .TagTooltip {
@@ -635,7 +639,6 @@
       font-size: 12px;
       line-height: 18px;
       color: var(--color-accent);
-      text-decoration: underline;
     }
 
     .join__type__drawer {
