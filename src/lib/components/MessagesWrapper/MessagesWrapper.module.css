@@ -6,6 +6,7 @@
   right: 0;
   z-index: 100001;
   padding: 46px;
+  padding-left: calc(var(--sidebar-width) + 46px);
   height: 100%;
   width: 100%;
   pointer-events: none;
