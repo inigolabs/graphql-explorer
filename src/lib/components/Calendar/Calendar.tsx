@@ -1,6 +1,6 @@
 import "./Calendar.scss";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
 import moment from "moment";
 
@@ -213,6 +213,61 @@ function Calendar(props: ICalendarProps) {
     }
   };
 
+  const [isDraggingLeft, setIsDraggingLeft] = useState(false);
+  const [isDraggingRight, setIsDraggingRight] = useState(false);
+
+  useEffect(() => {
+    function onMouseUp() {
+      setIsDraggingLeft(false);
+      setIsDraggingRight(false);
+    }
+
+    document.addEventListener("mouseup", onMouseUp);
+
+    return () => {
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
+
+  const onHover = useCallback(
+    (hoveredDate: string) => {
+      if (props.onHover) {
+        props.onHover(hoveredDate);
+      }
+
+      if (isDraggingLeft || isDraggingRight) {
+        let newSelected: typeof selected = selected;
+
+        if (!Array.isArray(selected)) {
+          return;
+        }
+
+        if (isDraggingLeft && moment(hoveredDate).isBefore(selected[0])) {
+          newSelected = [moment(hoveredDate), selected[1]];
+        } else if (
+          isDraggingRight &&
+          moment(hoveredDate).isAfter(selected[1])
+        ) {
+          newSelected = [selected[0], moment(hoveredDate)];
+        }
+
+        setSelected(newSelected);
+
+        if (props.onChange) {
+          if (Array.isArray(newSelected)) {
+            props.onChange([
+              moment(newSelected[0]).startOf("second").toISOString(),
+              moment(newSelected[1]).startOf("second").toISOString(),
+            ]);
+          } else {
+            props.onChange(moment(newSelected).startOf("second").toISOString());
+          }
+        }
+      }
+    },
+    [props.onHover, isDraggingLeft, isDraggingRight, selected]
+  );
+
   const renderCalendar = (currentDate: moment.Moment) => {
     return (
       <div
@@ -281,14 +336,17 @@ function Calendar(props: ICalendarProps) {
             .map((_, i) => i + 1)
             .map((day) => {
               const itemDate = currentDate.clone().date(day);
+              const isItemActive = isActive(itemDate);
+              const isItemSelected = isSelected(itemDate);
+              const isItemHovered = isHovered(itemDate);
 
               return (
                 <button
                   key={itemDate.format("MM/DD/YYYY")}
                   className={classNames("Item", {
-                    Selected: isSelected(itemDate),
-                    Active: isActive(itemDate),
-                    Hover: isHovered(itemDate),
+                    Selected: isItemSelected,
+                    Active: isItemActive,
+                    Hover: isItemHovered,
                     First: itemDate
                       .clone()
                       .startOf("month")
@@ -310,9 +368,7 @@ function Calendar(props: ICalendarProps) {
                     }
                   }}
                   onMouseEnter={() => {
-                    if (props.onHover) {
-                      props.onHover(itemDate.clone().toISOString());
-                    }
+                    onHover(itemDate.clone().toISOString());
                   }}
                   data-disabled={itemDate.isAfter(TODAY)}
                 >
@@ -325,6 +381,35 @@ function Calendar(props: ICalendarProps) {
                       {itemDate.date()}
                     </div>
                   </div>
+
+                  {(isItemActive || isItemSelected) && (
+                    <div className="Arrows">
+                      {Array.isArray(selected) &&
+                        itemDate.isSame(selected[0], "days") && (
+                          <div
+                            className="Arrow Left"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+
+                              setIsDraggingLeft(true);
+                            }}
+                          />
+                        )}
+                      {Array.isArray(selected) &&
+                        itemDate.isSame(selected[1], "days") && (
+                          <div
+                            className="Arrow Right"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+
+                              setIsDraggingRight(true);
+                            }}
+                          />
+                        )}
+                    </div>
+                  )}
                 </button>
               );
             })}

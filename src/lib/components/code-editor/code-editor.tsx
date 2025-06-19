@@ -1,20 +1,29 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 import {
-    getOperationAST, IntrospectionQuery, ObjectTypeDefinitionNode, parse, visit
-} from 'graphql';
-import { debounce, uniqueId } from 'lodash';
-import * as monaco from 'monaco-editor';
+  getOperationAST,
+  IntrospectionQuery,
+  ObjectTypeDefinitionNode,
+  parse,
+  visit,
+} from "graphql";
+import { debounce, uniqueId } from "lodash";
+import "monaco-editor/esm/vs/editor/editor.all.js";
+import * as monaco from "monaco-editor";
 // @ts-ignore
-import { MonacoGraphQLAPI } from 'monaco-graphql/esm/api';
+import { MonacoGraphQLAPI } from "monaco-graphql/esm/api";
 // @ts-ignore
-import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { initializeMode } from "monaco-graphql/initializeMode";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
-import { updateQueryParams } from '../../utils/queryParams';
-import styles from './code-editor.module.css';
-import { ICodeEditorProps, ICodeEditorRef } from './code-editor.types';
-
-(window as any).monaco = monaco;
+import { updateQueryParams } from "../../utils/queryParams";
+import styles from "./code-editor.module.css";
+import { ICodeEditorProps, ICodeEditorRef } from "./code-editor.types";
 
 monaco.editor.defineTheme("inigo-dark", {
   base: "vs-dark",
@@ -244,7 +253,9 @@ const CodeEditor: React.ForwardRefRenderFunction<
         });
       }
 
-      if (props.extraLib) {
+      console.log(monaco);
+
+      if (props.extraLib && monaco.languages.typescript) {
         monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
           target: monaco.languages.typescript.ScriptTarget.ES2016,
           allowNonTsExtensions: true,

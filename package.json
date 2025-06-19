@@ -160,12 +160,13 @@
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "moment": "^2.30.1",
-    "monaco-editor": "0.51.0",
-    "monaco-graphql": "^1.6.0",
+    "monaco-editor": "^0.52.2",
+    "monaco-graphql": "^1.7.0",
     "motion": "^11.16.6",
     "react-router-dom": "^7.1.1",
     "react-transition-group": "^4.4.5",
     "react-virtualized": "^9.22.5",
+    "vite-plugin-monaco-editor": "^1.1.0",
     "vscode-languageserver-types": "^3.17.5"
   },
   "devDependencies": {
