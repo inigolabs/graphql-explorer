@@ -1,0 +1,141 @@
+.Chart {
+  height: var(--line-chart-height, 400px);
+  width: calc(100% + 32px);
+  margin-left: -32px;
+}
+
+.Chart.DisableYAxis {
+  width: 100%;
+  margin-left: 0px;
+}
+
+.Chart path {
+  transition: opacity var(--transition);
+}
+
+.XAxis {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 34px);
+  margin-top: -24px;
+  margin-left: 34px;
+  font-size: 12px;
+  font-weight: 400;
+  height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.Tooltip {
+  position: relative;
+  min-width: 160px;
+  padding: 16px;
+  background: #333;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  filter: drop-shadow(0px 0px 16px rgba(50, 50, 71, 0.2));
+}
+
+.Tooltip::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0px;
+  border: 8px solid transparent;
+}
+
+.Tooltip .Title {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.Tooltip .Table {
+  width: 100%;
+}
+
+.Tooltip .Table th,
+.Tooltip .Table td {
+  line-height: 22px;
+  padding: 4px 16px;
+  text-align: left;
+}
+
+.Tooltip .Table thead tr th {
+  padding-top: 0px;
+}
+
+.Tooltip .Table tbody tr:first-child td {
+  padding-top: 0px;
+}
+
+.Tooltip .Table tbody tr:last-child td {
+  padding-bottom: 0px;
+}
+
+.Tooltip .Table th:first-child,
+.Tooltip .Table td:first-child {
+  padding-left: 0px;
+}
+
+.Tooltip .Table th:last-child,
+.Tooltip .Table td:last-child {
+  padding-right: 0px;
+}
+
+.Tooltip .Table .Circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 100%;
+  border: 1px solid #ffffff;
+}
+
+.Legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.Legend .Item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  transition: opacity var(--transition);
+}
+
+.Legend .Item.Selected {
+  opacity: 1;
+}
+
+.Legend .Item .Circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border: 4px solid transparent;
+}
+
+.Legend .Item .Label {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--color-text-primary);
+}
+
+.Legend {
+  margin-left: auto;
+}

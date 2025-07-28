@@ -14,6 +14,7 @@ import Button from "../Button/Button";
 import Loader from "../Loader/Loader";
 import { throttle } from "lodash";
 import TextInput, { TextInputRef } from "../TextInput/TextInput";
+import { Link } from "react-router-dom";
 
 const renderStringWithSearch = (
   value: string,
@@ -109,33 +110,34 @@ function Option(props: IOptionProps) {
     );
   }
 
-  // if (props.href) {
-  //   return (
-  //     <Link
-  //       tabIndex={0}
-  //       to={props.href}
-  //       className={classNames(
-  //         "MenuOption",
-  //         {
-  //           ReadOnly: readOnly,
-  //           Disabled: props.disabled,
-  //           Selected: props.isSelected,
-  //         },
-  //         props.className
-  //       )}
-  //       onClick={(ev) => {
-  //         ev.stopPropagation();
+  if (props.href) {
+    return (
+      <Link
+        tabIndex={0}
+        to={props.href}
+        className={classNames(
+          "MenuOption",
+          {
+            ReadOnly: readOnly,
+            Disabled: props.disabled,
+            Selected: props.isSelected,
+          },
+          props.className
+        )}
+        onClick={(ev) => {
+          ev.stopPropagation();
 
-  //         ev.currentTarget.blur();
-  //         props.onClick?.(value);
-  //       }}
-  //     >
-  //       {typeof children === "string" && props.searchValue
-  //         ? renderStringWithSearch(children, props.searchValue)
-  //         : children}
-  //     </Link>
-  //   );
-  // }
+          ev.currentTarget.blur();
+          props.onClick?.(value);
+        }}
+      >
+        {typeof children === "string" && props.searchValue
+          ? renderStringWithSearch(children, props.searchValue)
+          : children}
+      </Link>
+    );
+  }
+  
   if (props.render) {
     return <div>{props.render(props)}</div>;
   }

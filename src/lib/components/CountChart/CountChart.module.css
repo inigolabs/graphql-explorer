@@ -1,0 +1,26 @@
+.value {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--color-text-primary);
+}
+
+@media screen and (max-width: 1440px) {
+  .value {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.value .percentage {
+  border: none;
+  font-size: 16px;
+  line-height: 24px;
+  height: 24px;
+  padding: 0 4px;
+  gap: 4px;
+}

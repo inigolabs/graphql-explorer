@@ -1,0 +1,70 @@
+.Badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 var(--gutter-small);
+  border: 1px solid;
+  border-radius: var(--border-radius-regular);
+  font-size: var(--font-size-small);
+}
+
+.Badge {
+  color: var(--color-badge-default-text);
+  border-color: var(--color-badge-default-border);
+  background-color: var(--color-badge-default-background);
+}
+
+.Badge .Icon {
+  color: var(--color-badge-default-border);
+}
+
+.Badge.failed {
+  color: var(--color-badge-failed-text);
+  border-color: var(--color-badge-failed-border);
+  background-color: var(--color-badge-failed-background);
+}
+
+.Badge.failed .Icon {
+  color: var(--color-badge-failed-border);
+}
+
+.Badge.success {
+  color: var(--color-badge-success-text);
+  border-color: var(--color-badge-success-border);
+  background-color: var(--color-badge-success-background);
+}
+
+.Badge.success .Icon {
+  color: var(--color-badge-success-border);
+}
+
+.Badge.warning {
+  color: var(--color-badge-warning-text);
+  border-color: var(--color-badge-warning-border);
+  background-color: var(--color-badge-warning-background);
+}
+
+.Badge.warning .Icon {
+  color: var(--color-badge-warning-border);
+}
+
+.Badge.neutral {
+  color: var(--color-badge-neutral-text);
+  border-color: var(--color-badge-neutral-border);
+  background-color: var(--color-badge-neutral-background);
+}
+
+.Badge.neutral .Icon {
+  color: var(--color-badge-neutral-border);
+}
+
+.Badge.disabled {
+  color: var(--color-badge-disabled-text);
+  border-color: var(--color-badge-disabled-border);
+  background-color: var(--color-badge-disabled-background);
+}
+
+.Badge.disabled .Icon {
+  color: var(--color-badge-disabled-border);
+}

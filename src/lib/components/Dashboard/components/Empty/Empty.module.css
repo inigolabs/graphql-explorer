@@ -1,0 +1,188 @@
+.Container {
+  width: 100%;
+  height: 100%;
+  padding-top: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  --empty-color-background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+}
+
+:global(.dark) .Container {
+  --empty-color-background: var(--color-divider-primary);
+}
+
+.PieContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 64px;
+}
+
+.Pie {
+  height: 160px;
+  padding: 24px;
+  aspect-ratio: 1 / 1;
+  background: var(--empty-color-background);
+  border-radius: 50%;
+}
+
+.Pie .Inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-background-primary);
+  border-radius: 50%;
+}
+
+.PieContainer .Legend {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.PieContainer .Legend .Item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.PieContainer .Legend .Color {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  background: var(--empty-color-background);
+}
+
+.PieContainer .Legend .Label {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.PieContainer .Legend .Value {
+  margin-left: auto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.BarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+}
+
+.Bars {
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  width: 100%;
+  flex: 1;
+  gap: 13px;
+}
+
+.Bar {
+  width: 100%;
+  background: var(--empty-color-background);
+  border-radius: 4px;
+}
+
+.BlockContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.Blocks {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  flex: 1;
+  gap: 4px;
+}
+
+.Block {
+  width: 100%;
+  height: 32px;
+  background: var(--empty-color-background);
+  border-radius: 4px;
+}
+
+.ListContainer {
+  display: block;
+  padding: 0px;
+}
+
+.List .barContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 38.5px;
+  padding: var(--gutter-small) var(--gutter-regular);
+  transition: background-color var(--transition);
+}
+
+.List .barContainer:not(:last-child) {
+  border-bottom: 1px solid var(--color-divider-primary);
+}
+
+.List .barContainer .bar {
+  height: 23.5px;
+  border-radius: 4px;
+  background-color: var(--color-background-bar-chart);
+}
+
+.List .barContainer .bar .barItemInfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Head {
+  display: flex;
+  gap: 24px;
+}
+
+.Column {
+  flex: 1;
+  height: 12px;
+  background: var(--empty-color-background);
+  border-radius: 4px;
+}
+
+.Body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.Row {
+  width: 100%;
+  height: 12px;
+  background: var(--empty-color-background);
+  border-radius: 4px;
+}

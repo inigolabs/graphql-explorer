@@ -3,6 +3,7 @@ export interface IOptionProps {
   disabled?: boolean;
   active?: boolean;
   value?: unknown;
+  href?: string;
   readOnly?: boolean;
   children: string | JSX.Element | JSX.Element[];
   onClick?: (value: unknown) => void;

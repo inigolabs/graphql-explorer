@@ -1,0 +1,12 @@
+githubRepoOwner: inigolabs
+githubRepoName: graphql-explorer
+githubHost: github.com
+githubRemote: origin
+githubBranch: schema-tag-args-render
+requireChecks: true
+requireApproval: true
+mergeMethod: rebase
+mergeQueue: false
+forceFetchTags: false
+showPrTitlesInStack: false
+branchPushIndividually: false

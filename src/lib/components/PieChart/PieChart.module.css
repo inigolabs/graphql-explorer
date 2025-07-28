@@ -1,0 +1,172 @@
+.Container {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--gutter-regular);
+  height: 100%;
+}
+
+.Container.Disabled {
+  pointer-events: none;
+}
+
+.Chart {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+.Chart * {
+  outline: none !important;
+}
+
+.Count {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transform: translate(-50%, -50%);
+}
+
+.Count .Value {
+  text-align: center;
+  color: var(--color-text-primary);
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.Count .Label {
+  text-align: center;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.Legend {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  flex: 1;
+  max-height: 173px;
+  overflow-y: auto;
+  overflow-x: clip;
+}
+
+.Legend .Title {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 24px;
+}
+
+.Legend .List {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.Legend .Column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: inherit;
+}
+
+.Legend .Row {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-accent);
+}
+
+.Legend .Color {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  min-height: 16px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+
+.Legend .Label {
+  margin-right: 16px;
+  width: 100%;
+  color: var(--color-accent);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.Legend .Label:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Legend .Value {
+  color: var(--color-text-secondary);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.Legend .Row:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.Tooltip {
+  position: relative;
+  min-width: 480px;
+  padding: 8px 16px;
+  background-color: #333;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  filter: drop-shadow(0px 0px 16px rgba(50, 50, 71, 0.2));
+}
+
+.Tooltip::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0px;
+  border: 8px solid transparent;
+}
+
+.Tooltip .Title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 22px;
+  /* white-space: nowrap; */
+}
+
+.Tooltip .Table {
+  max-width: 100%;
+}
+
+.Tooltip .Table th,
+.Tooltip .Table td {
+  line-height: 22px;
+  padding: 2px 0px;
+  padding-right: 16px;
+  text-align: left;
+}
+
+.Tooltip .Table td:first-child {
+  color: var(--color-text-secondary);
+}
+
+.Tooltip .Table .Circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 100%;
+  border: 1px solid #ffffff;
+}

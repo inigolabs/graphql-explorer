@@ -1,0 +1,624 @@
+@use "../../styles/variables/variables.scss";
+@use "../../styles/variables/colors";
+
+.actionsDropdown {
+  cursor: pointer;
+}
+
+.ListInlineActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ListAction {
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: color var(--transition);
+}
+
+.ListActionOption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  transition: color var(--transition);
+}
+
+.ListAction:hover {
+  color: var(--color-text-primary);
+}
+
+.List {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 4px;
+  background-color: var(--color-background-primary);
+  border: 1px solid var(--color-divider-primary);
+
+  .ListTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--color-text-primary);
+  }
+
+  .ListSearch {
+    display: flex;
+    align-items: center;
+    gap: var(--gutter-regular);
+    padding: 16px 24px;
+
+    .ListSearchInput {
+      flex: 1;
+    }
+  }
+
+  &.loading {
+    // min-height: 256px;
+  }
+
+  &.error {
+    min-height: 500px;
+  }
+
+  .ListLoader {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    z-index: 7;
+    width: 100%;
+    height: 256px;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .Loader {
+      background: none;
+    }
+
+    &.HasTitle {
+      top: calc(44px + 28px + 16px);
+    }
+
+    &.HasSearch {
+      top: 108px;
+    }
+  }
+
+  .ListError {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: calc(100% - 96px);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .ListEmpty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    padding: 32px 0;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+  }
+
+  .ListContainer {
+    display: flex;
+    width: var(--width, 100%);
+
+    &.ListContainerHead.HasStickyHeader {
+      box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08);
+    }
+
+    &.ListContainerBody.HasStickyHeader {
+      padding-top: 44px;
+    }
+
+    .ListContainerScroll {
+      display: flex;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      transition: box-shadow var(--transition);
+    }
+
+    .ListContainerFixed {
+      position: relative;
+      border-left: 1px solid var(--color-divider-primary);
+
+      &.HasShadow {
+        box-shadow: -2px 3px 6px 0px rgba(18, 18, 18, 0.1);
+      }
+    }
+
+    .ListScrollArrow {
+      cursor: pointer;
+      display: flex;
+      padding-top: calc(44px + 14px);
+      justify-content: center;
+      position: absolute;
+      top: -44px;
+      bottom: 0;
+      z-index: 100;
+      width: 48px;
+      background-color: var(--color-background-primary);
+      opacity: 0.75;
+      transition: opacity var(--transition);
+
+      &.ListScrollArrowLeft {
+        right: -48px;
+        border-right: 1px solid var(--color-divider-primary);
+      }
+
+      &.ListScrollArrowRight {
+        left: -49px;
+        border-left: 1px solid var(--color-divider-primary);
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .Column {
+      // flex: 1;
+      // overflow: hidden;
+
+      // &.Primary {
+      // flex: 1;
+      // max-width: none !important;
+      // }
+
+      &.Hidden {
+        overflow: hidden;
+        min-width: 193px;
+      }
+
+      .Head {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 8px;
+        height: 44px;
+        padding: 16px 24px 12px;
+        color: var(--color-text-secondary);
+        background-color: var(--color-background-primary);
+
+        &.Sticky {
+          position: fixed;
+          top: 104px;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .Content {
+          cursor: pointer;
+          font-size: 14px;
+          line-height: 22px;
+          white-space: nowrap;
+          color: var(--color-text-primary);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          transition: color variables.$transition;
+        }
+
+        .Description {
+          font-size: 14px;
+          line-height: 22px;
+          white-space: unset;
+        }
+
+        .Sort {
+          display: none;
+
+          &.Visible {
+            display: block;
+          }
+
+          .SortIcon {
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 8px;
+            height: 8px;
+            overflow: hidden;
+            color: #90929b;
+
+            &.Up {
+              color: var(--color-text-secondary);
+            }
+
+            &.Down {
+              color: var(--color-text-secondary);
+            }
+
+            &.Active {
+              display: flex;
+            }
+          }
+        }
+
+        &.Left {
+          justify-content: flex-start;
+        }
+
+        &.Center {
+          justify-content: center;
+        }
+
+        &.Right {
+          justify-content: flex-end;
+        }
+
+        // &.Active {
+        //   display: grid;
+        //   grid-template-columns: 1fr auto;
+        // }
+      }
+
+      .Body {
+        width: 100%;
+        color: var(--color-text-secondary);
+
+        .Cell {
+          position: relative;
+          display: flex;
+          align-items: center;
+          height: 44px;
+          padding: 0 24px;
+          border-bottom: 1px solid var(--color-divider-primary);
+          transition: background-color var(--transition);
+
+          &.Child {
+            background-color: var(--color-background-list-child);
+          }
+
+          &.Hovered {
+            background-color: var(--color-background-hover);
+          }
+
+          .Content {
+            display: grid;
+            align-items: center;
+            font-size: 14px;
+            line-height: 22px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+
+            .Link {
+              cursor: pointer;
+              color: var(--color-accent);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 100%;
+              width: 100%;
+              transition: color var(--transition);
+
+              &:hover {
+                color: var(--color-accent-hover);
+                text-decoration: underline;
+              }
+
+              &:active {
+                color: var(--color-accent-active);
+                text-decoration: underline;
+              }
+            }
+
+            .PassRate {
+              @include variables.Pill;
+            }
+
+            // .ProgressBar {}
+
+            .Menu {
+              .Options {
+                right: 0;
+                left: unset;
+              }
+            }
+          }
+
+          &.Left {
+            justify-content: flex-start;
+
+            .Content {
+              justify-content: flex-start;
+            }
+          }
+
+          &.Center {
+            justify-content: center;
+
+            .Content {
+              justify-content: center;
+            }
+          }
+
+          &.Right {
+            justify-content: flex-end;
+
+            .Content {
+              justify-content: flex-end;
+            }
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+
+      &:first-child {
+        // .Head {
+        //   padding: 0 20px 0 32px;
+        // }
+        // .Body {
+        //   .Cell {
+        //     padding: 0 20px 0 32px;
+        //   }
+        // }
+      }
+
+      &:last-child {
+        // .Head {
+        //   padding: 0 32px 0 20px;
+        // }
+        // .Body {
+        //   .Cell {
+        //     padding: 0 32px 0 20px;
+        //   }
+        // }
+      }
+
+      // &:not(:last-child) {
+      //   .Cell, .Head {
+      //     border-right: 1px solid var(--color-divider-primary);
+      //   }
+      // }
+    }
+
+    &.ListContainerHead {
+      z-index: 3;
+      border-bottom: 1px solid var(--color-divider-primary);
+
+      .ListContainerScroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .ListContainerScroll {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+    }
+  }
+
+  &.embedded {
+    width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+
+    .ListContainer {
+      &.ListContainerHead {
+        .Column {
+          .Head {
+            height: auto;
+            padding: 8px 16px 8px;
+            padding-top: 0px;
+
+            .Content {
+              color: var(--color-text-disabled);
+              font-weight: 500;
+            }
+
+            .Sort {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &.ListContainerBody {
+        flex: 1;
+        overflow: hidden;
+
+        .ListContainerScroll {
+          overflow-y: auto;
+        }
+
+        .Column {
+          .Body {
+            .Cell {
+              height: auto;
+              padding: 8px 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.PaginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 50px;
+  min-height: 50px;
+  border-top: 1px solid colors.$border-color;
+  padding: 0 20px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: default;
+  color: var(--color-text-secondary);
+
+  button {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 15px;
+    color: colors.$light-gray;
+
+    & span {
+      height: 100%;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    &.Arrow {
+      padding: 4px;
+      color: var(--color-text-secondary);
+    }
+
+    &.active {
+      background: var(--color-accent);
+      border: 1px solid var(--color-accent);
+      box-sizing: border-box;
+      border-radius: 4px;
+      color: colors.$white-color;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.Page {
+      margin: 0 4px;
+    }
+
+    &:disabled {
+      &.Arrow {
+        color: #888888;
+      }
+    }
+  }
+
+  .Left {
+    display: flex;
+    flex: 1;
+    padding: 0 0 0 24px;
+    color: var(--color-text-secondary);
+  }
+
+  .Select {
+    margin: 0 16px;
+
+    .Input {
+      gap: 8px;
+      height: 26px;
+      padding: 4px 8px;
+      border: 1px solid var(--color-divider-primary);
+      border-radius: 4px;
+      background: none;
+      transition: border-color var(--transition);
+
+      .Field {
+        padding: 0;
+        font-weight: 400;
+      }
+
+      .Suffix {
+        height: inherit;
+        padding: 0;
+      }
+    }
+
+    &.Active {
+      .Input {
+        border-color: var(--color-accent);
+      }
+    }
+
+    .Options {
+      border: 1px solid var(--color-divider-primary);
+      font-size: 14px;
+      line-height: 22px;
+      padding: 8px 0;
+
+      .SelectOption {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        height: 38px;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+
+    .PageSizeOption {
+      color: var(--color-text-secondary);
+      width: 100%;
+      padding: 0 16px !important;
+      transition: color var(--transition), background-color var(--transition);
+
+      &:hover {
+        color: var(--color-text-primary);
+        background-color: #f5f7ff;
+      }
+
+      &.PageSizeOptionActive {
+        color: var(--color-text-primary);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.dark .List {
+  .ListContainer {
+    &.ListContainerHead.HasStickyHeader {
+      box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.6);
+    }
+
+    .ListContainerFixed {
+      &.HasShadow {
+        box-shadow: -2px 3px 6px 0px rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
+}
+
+.List.activeRows {
+  .Column {
+    .Body {
+      .Cell {
+        cursor: pointer;
+      }
+    }
+  }
+}

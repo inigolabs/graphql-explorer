@@ -1,0 +1,438 @@
+.container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.chart {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chart .header {
+  display: grid;
+  padding: 8px 16px;
+  font-weight: 500;
+  color: var(--bar-chart-header-color-text, var(--color-text-primary));
+  border-bottom: 1px solid var(--color-divider-primary);
+  gap: var(--gutter-extra-small);
+}
+
+.chart .header .item {
+  gap: 8px;
+  white-space: nowrap;
+  min-width: 40px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.chart .header .item:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.chart .header .item:not(:first-child) {
+  text-align: right;
+}
+
+.chart .yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-bottom: 26px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  align-items: flex-end;
+  color: var(--color-text-secondary);
+  max-width: 124px;
+  overflow: hidden;
+}
+
+.chart .yAxis .yAxisTick {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  direction: rtl;
+}
+
+.chart .inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.chart .inner .bars {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.horizontal .chart .inner .bars {
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.chart .inner .bars .lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart .inner .bars .lines .line {
+  width: 1px;
+  height: 100%;
+  border-right: 1px dashed var(--color-divider-primary);
+}
+
+.chart .inner .bars .lines .line:first-child {
+  opacity: 0;
+}
+
+.chart .inner .bars .barContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* flex: 1; */
+  padding: var(--gutter-small) var(--gutter-regular);
+  transition: background-color var(--transition);
+}
+
+.chart .inner .bars .barContainer:hover {
+  background-color: var(--color-background-hover);
+}
+.chart .inner .bars a.barContainer:hover .barItemValue {
+  text-decoration: underline;
+}
+
+.chart .inner .bars {
+  overflow-y: auto;
+}
+
+.chart .inner .bars .barWrapper {
+  position: relative;
+  width: 100%;
+  flex: 1;
+}
+
+.horizontal .chart .inner .bars .barWrapper {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  flex: auto;
+}
+
+.chart .inner .bars .barWrapper {
+  position: relative;
+  height: 23.5px;
+  min-height: 23.5px;
+  flex: unset;
+}
+
+.chart .inner .bars .barHolder:has(.barChildren) .barContainer,
+.chart .inner .bars .barHolder:not(:last-child) .barContainer {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-divider-primary);
+}
+
+.chart .inner .bars .barWrapper:before {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  pointer-events: none;
+  border-radius: 4px;
+}
+
+.chart .inner .bars .barWrapper:after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  transition: opacity var(--transition);
+}
+
+.chart .inner .bars .barContainer:hover {
+  cursor: pointer;
+}
+
+.chart .inner .bars .barContainer:hover .barWrapper:after {
+  opacity: 0.4;
+}
+
+.chart .inner .bars .barContainer .yAxisTick {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+  transition: color var(--transition);
+}
+
+.chart .inner .bars .barContainer:hover .yAxisTick {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.chart .inner .bars .bar {
+  display: flex;
+  height: 100%;
+  transition: width var(--transition);
+}
+
+.horizontal .chart .inner .bars .bar {
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+}
+
+.chart .inner .bars .bar .barItem {
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--color-background-bar-chart);
+  transition: background-color var(--transition);
+}
+
+.chart .inner .bars .barContainer:hover .bar .barItem {
+  cursor: pointer;
+  /* background-color: var(--color-background-bar-chart-hover); */
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo {
+  display: grid;
+  gap: var(--gutter-extra-small);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 0 4px;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .barItemArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: transform var(--transition);
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .barItemValue.hasChildren:first-child {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr 0fr;
+  gap: var(--gutter-extra-small);
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .barItemValue .more {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--gutter-extra-small);
+}
+
+.chart .inner .bars .barContainer:hover .bar .barItem .barItemInfo .barItemValue.hasChildren:first-child {
+  grid-template-columns: auto 1fr auto;
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .barItemValue:not(:first-child) {
+  text-align: right;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .barItemValue {
+  min-width: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chart .inner .bars .bar .barItem .barItemInfo .emptyMessage {
+  margin: 0 auto;
+}
+
+.chart .inner .xAxis {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.container:not(.vertical) .chart {
+  width: calc(100% + 32px);
+  margin-left: -32px;
+}
+
+.Tooltip {
+  position: relative;
+  min-width: 160px;
+  padding: 4px 8px;
+  background: #333;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  filter: drop-shadow(0px 0px 16px rgba(50, 50, 71, 0.2));
+}
+
+.Tooltip::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0px;
+  border: 8px solid transparent;
+}
+
+.Tooltip .Title {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.Tooltip .Table {
+  max-width: 100%;
+}
+
+.Tooltip .Table th,
+.Tooltip .Table td {
+  line-height: 22px;
+  padding: 2px 0px;
+  padding-right: 16px;
+  text-align: left;
+}
+
+.Tooltip .Table td:first-child {
+  color: var(--color-text-secondary);
+}
+
+.Tooltip .Table .Circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 4px;
+  border: 1px solid #ffffff;
+}
+
+.Floating {
+  position: absolute;
+}
+
+.FloatingTooltip {
+  position: fixed;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(8px);
+  transition:
+    left var(--transition),
+    opacity var(--transition);
+}
+
+.FloatingTooltip.Right {
+  transform: translateY(-50%) translateX(-8px);
+}
+
+.FloatingTooltipArrow {
+  position: absolute;
+  display: block;
+  width: 0;
+  pointer-events: none;
+  border: 6px solid transparent;
+}
+
+.FloatingTooltip.Left .FloatingTooltipArrow {
+  left: 0;
+  top: 50%;
+  border-left: 0;
+  border-right: 6px solid #333;
+  transform: translate(calc(-100%), -50%);
+}
+
+.FloatingTooltip.Right .FloatingTooltipArrow {
+  right: 0;
+  top: 50%;
+  border-right: 0;
+  border-left: 6px solid #333;
+  transform: translate(calc(100%), -50%);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  padding: 32px 0;
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.barHolder {
+  display: flex;
+  flex-direction: column;
+}
+
+.barChildrenContainer {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows var(--transition);
+}
+
+.barHolder.expanded .barChildrenContainer {
+  grid-template-rows: 1fr;
+}
+
+.barHolder.expanded .barItemArrow {
+  transform: rotate(90deg);
+}
+
+.barChildren {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.barItemLabel {
+  overflow: hidden;
+}
+
+.barChildren .barItemLabel {
+  padding-left: 20px;
+  overflow: hidden;
+}
